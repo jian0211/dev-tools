@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Pipeline Auditor - Mockup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; }
+    .step-connector { width: 2px; height: 24px; background: #e5e7eb; margin: 0 auto; }
+    .step-connector.active { background: #6366f1; }
+  </style>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen">
+
+  <!-- Header -->
+  <header class="border-b border-gray-800 px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-sm font-bold">A</div>
+      <span class="font-semibold text-lg">AI Pipeline Auditor</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded">PoC v0.1</span>
+      <button class="text-xs bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded-lg transition">새 파이프라인</button>
+    </div>
+  </header>
+
+  <div class="flex h-[calc(100vh-57px)]">
+
+    <!-- Sidebar: Pipeline Steps -->
+    <aside class="w-64 border-r border-gray-800 p-4 flex flex-col gap-1 overflow-y-auto">
+      <p class="text-xs text-gray-500 font-medium uppercase tracking-wider mb-3">파이프라인 단계</p>
+
+      <!-- Step items -->
+      <div class="step active">
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-indigo-600/20 border border-indigo-500/40 cursor-pointer">
+          <span class="text-xs font-mono text-indigo-400 w-6">00</span>
+          <span class="text-sm text-indigo-300">변경 관리</span>
+          <span class="ml-auto text-indigo-400">⚙️</span>
+        </div>
+      </div>
+
+      <div class="step-connector active"></div>
+
+      <div class="step">
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800 cursor-pointer border border-transparent hover:border-gray-700 transition">
+          <span class="text-xs font-mono text-gray-500 w-6">01</span>
+          <span class="text-sm text-green-400">요건 정의</span>
+          <span class="ml-auto text-green-400 text-xs">✅</span>
+        </div>
+      </div>
+
+      <div class="step-connector active"></div>
+
+      <div class="step">
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800 cursor-pointer border border-transparent hover:border-gray-700 transition">
+          <span class="text-xs font-mono text-gray-500 w-6">02</span>
+          <span class="text-sm text-green-400">요건 리뷰</span>
+          <span class="ml-auto text-green-400 text-xs">✅</span>
+        </div>
+      </div>
+
+      <div class="step-connector active"></div>
+
+      <div class="step">
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-gray-800 cursor-pointer border border-transparent hover:border-gray-700 transition">
+          <span class="text-xs font-mono text-gray-500 w-6">03</span>
+          <span class="text-sm text-yellow-400">태스크 분해</span>
+          <span class="ml-auto text-yellow-400 text-xs">⚠️</span>
+        </div>
+      </div>
+
+      <div class="step-connector"></div>
+
+      <div class="step">
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg opacity-40 cursor-not-allowed">
+          <span class="text-xs font-mono text-gray-600 w-6">04</span>
+          <span class="text-sm text-gray-400">분해 검토</span>
+          <span class="ml-auto text-gray-600 text-xs">—</span>
+        </div>
+      </div>
+
+      <div class="step-connector"></div>
+
+      <div class="step">
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg opacity-40 cursor-not-allowed">
+          <span class="text-xs font-mono text-gray-600 w-6">05</span>
+          <span class="text-sm text-gray-400">태스크 실행</span>
+          <span class="ml-auto text-gray-600 text-xs">—</span>
+        </div>
+      </div>
+
+      <div class="step-connector"></div>
+
+      <div class="step">
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg opacity-40 cursor-not-allowed">
+          <span class="text-xs font-mono text-gray-600 w-6">06</span>
+          <span class="text-sm text-gray-400">코드 리뷰</span>
+          <span class="ml-auto text-gray-600 text-xs">—</span>
+        </div>
+      </div>
+
+      <div class="step-connector"></div>
+
+      <div class="step">
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg opacity-40 cursor-not-allowed">
+          <span class="text-xs font-mono text-gray-600 w-6">07</span>
+          <span class="text-sm text-gray-400">태스크 머지</span>
+          <span class="ml-auto text-gray-600 text-xs">—</span>
+        </div>
+      </div>
+
+      <div class="step-connector"></div>
+
+      <div class="step">
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg opacity-40 cursor-not-allowed">
+          <span class="text-xs font-mono text-gray-600 w-6">08</span>
+          <span class="text-sm text-gray-400">통합 검토</span>
+          <span class="ml-auto text-gray-600 text-xs">—</span>
+        </div>
+      </div>
+
+      <div class="step-connector"></div>
+
+      <div class="step">
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-lg opacity-40 cursor-not-allowed">
+          <span class="text-xs font-mono text-gray-600 w-6">09</span>
+          <span class="text-sm text-gray-400">PR 생성</span>
+          <span class="ml-auto text-gray-600 text-xs">—</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6 overflow-y-auto">
+
+      <!-- Current Step Header -->
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <p class="text-xs text-gray-500 mb-1">현재 단계</p>
+          <h1 class="text-xl font-semibold">03. 태스크 분해</h1>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 px-2.5 py-1 rounded-full">검토 중</span>
+          <button class="text-xs bg-gray-800 hover:bg-gray-700 border border-gray-700 px-3 py-1.5 rounded-lg transition">재실행</button>
+          <button class="text-xs bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded-lg transition">다음 단계 →</button>
+        </div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="grid grid-cols-4 gap-4 mb-6">
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-4">
+          <p class="text-xs text-gray-500 mb-1">전체 요건</p>
+          <p class="text-2xl font-bold text-white">8</p>
+          <p class="text-xs text-gray-600 mt-1">REQ-01 ~ REQ-08</p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-4">
+          <p class="text-xs text-gray-500 mb-1">분해된 태스크</p>
+          <p class="text-2xl font-bold text-indigo-400">12</p>
+          <p class="text-xs text-gray-600 mt-1">TASK-01 ~ TASK-12</p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-4">
+          <p class="text-xs text-gray-500 mb-1">병렬 실행 가능</p>
+          <p class="text-2xl font-bold text-green-400">5</p>
+          <p class="text-xs text-gray-600 mt-1">독립 태스크</p>
+        </div>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-4">
+          <p class="text-xs text-gray-500 mb-1">커버리지</p>
+          <p class="text-2xl font-bold text-yellow-400">87%</p>
+          <p class="text-xs text-gray-600 mt-1">1개 요건 미연결</p>
+        </div>
+      </div>
+
+      <!-- Task List -->
+      <div class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden mb-6">
+        <div class="px-4 py-3 border-b border-gray-800 flex items-center justify-between">
+          <span class="text-sm font-medium">태스크 목록</span>
+          <span class="text-xs text-gray-500">12개 태스크</span>
+        </div>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-800 text-xs text-gray-500">
+              <th class="text-left px-4 py-2.5">ID</th>
+              <th class="text-left px-4 py-2.5">태스크명</th>
+              <th class="text-left px-4 py-2.5">연관 요건</th>
+              <th class="text-left px-4 py-2.5">의존</th>
+              <th class="text-left px-4 py-2.5">병렬</th>
+              <th class="text-left px-4 py-2.5">크기</th>
+              <th class="text-left px-4 py-2.5">상태</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-800/60">
+            <tr class="hover:bg-gray-800/40 transition">
+              <td class="px-4 py-2.5 font-mono text-indigo-400 text-xs">TASK-01</td>
+              <td class="px-4 py-2.5 text-gray-200">파이프라인 오케스트레이터 설계</td>
+              <td class="px-4 py-2.5 text-xs text-gray-500">REQ-01</td>
+              <td class="px-4 py-2.5 text-xs text-gray-600">—</td>
+              <td class="px-4 py-2.5"><span class="text-green-400 text-xs">가능</span></td>
+              <td class="px-4 py-2.5"><span class="bg-orange-500/20 text-orange-400 text-xs px-1.5 py-0.5 rounded">L</span></td>
+              <td class="px-4 py-2.5"><span class="text-yellow-400 text-xs">⚠️ 재분해 필요</span></td>
+            </tr>
+            <tr class="hover:bg-gray-800/40 transition">
+              <td class="px-4 py-2.5 font-mono text-indigo-400 text-xs">TASK-02</td>
+              <td class="px-4 py-2.5 text-gray-200">요건 정의 에이전트 구현</td>
+              <td class="px-4 py-2.5 text-xs text-gray-500">REQ-02</td>
+              <td class="px-4 py-2.5 text-xs text-gray-500">TASK-01</td>
+              <td class="px-4 py-2.5"><span class="text-red-400 text-xs">불가</span></td>
+              <td class="px-4 py-2.5"><span class="bg-green-500/20 text-green-400 text-xs px-1.5 py-0.5 rounded">S</span></td>
+              <td class="px-4 py-2.5"><span class="text-green-400 text-xs">✅ 통과</span></td>
+            </tr>
+            <tr class="hover:bg-gray-800/40 transition">
+              <td class="px-4 py-2.5 font-mono text-indigo-400 text-xs">TASK-03</td>
+              <td class="px-4 py-2.5 text-gray-200">코드 리뷰 에이전트 구현</td>
+              <td class="px-4 py-2.5 text-xs text-gray-500">REQ-03, REQ-04</td>
+              <td class="px-4 py-2.5 text-xs text-gray-500">TASK-01</td>
+              <td class="px-4 py-2.5"><span class="text-green-400 text-xs">가능</span></td>
+              <td class="px-4 py-2.5"><span class="bg-yellow-500/20 text-yellow-400 text-xs px-1.5 py-0.5 rounded">M</span></td>
+              <td class="px-4 py-2.5"><span class="text-green-400 text-xs">✅ 통과</span></td>
+            </tr>
+            <tr class="hover:bg-gray-800/40 transition opacity-50">
+              <td class="px-4 py-2.5 font-mono text-gray-600 text-xs">TASK-04</td>
+              <td class="px-4 py-2.5 text-gray-500">PR 생성 에이전트 구현</td>
+              <td class="px-4 py-2.5 text-xs text-gray-600">REQ-05</td>
+              <td class="px-4 py-2.5 text-xs text-gray-600">TASK-02, TASK-03</td>
+              <td class="px-4 py-2.5"><span class="text-gray-600 text-xs">불가</span></td>
+              <td class="px-4 py-2.5"><span class="bg-yellow-500/20 text-yellow-400 text-xs px-1.5 py-0.5 rounded">M</span></td>
+              <td class="px-4 py-2.5"><span class="text-gray-600 text-xs">— 대기</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- AI Feedback Panel -->
+      <div class="bg-gray-900 border border-yellow-500/30 rounded-xl p-4">
+        <div class="flex items-start gap-3">
+          <div class="w-6 h-6 bg-yellow-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <span class="text-yellow-400 text-xs">!</span>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-yellow-400 mb-1">감사관 피드백</p>
+            <p class="text-sm text-gray-400 leading-relaxed">
+              <span class="text-white">TASK-01</span>이 L 사이즈로 판정되었습니다.
+              "파이프라인 오케스트레이터 설계"를 <span class="text-indigo-400">TASK-01a (인터페이스 정의)</span>와
+              <span class="text-indigo-400">TASK-01b (실행 로직 구현)</span>으로 재분해하는 것을 권장합니다.
+            </p>
+            <div class="flex gap-2 mt-3">
+              <button class="text-xs bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-400 border border-yellow-500/30 px-3 py-1.5 rounded-lg transition">재분해 요청</button>
+              <button class="text-xs bg-gray-800 hover:bg-gray-700 text-gray-400 border border-gray-700 px-3 py-1.5 rounded-lg transition">무시하고 진행</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Right Panel: Requirements -->
+    <aside class="w-72 border-l border-gray-800 p-4 overflow-y-auto">
+      <p class="text-xs text-gray-500 font-medium uppercase tracking-wider mb-3">요건 목록</p>
+
+      <div class="flex flex-col gap-2">
+        <div class="bg-gray-900 border border-green-500/30 rounded-lg p-3">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-mono text-green-400">REQ-01</span>
+            <span class="text-xs text-green-400">✅</span>
+          </div>
+          <p class="text-xs text-gray-300">파이프라인 각 단계를 독립 에이전트로 운영</p>
+        </div>
+
+        <div class="bg-gray-900 border border-green-500/30 rounded-lg p-3">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-mono text-green-400">REQ-02</span>
+            <span class="text-xs text-green-400">✅</span>
+          </div>
+          <p class="text-xs text-gray-300">요건 변경 시 재시작 지점 자동 결정</p>
+        </div>
+
+        <div class="bg-gray-900 border border-green-500/30 rounded-lg p-3">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-mono text-green-400">REQ-03</span>
+            <span class="text-xs text-green-400">✅</span>
+          </div>
+          <p class="text-xs text-gray-300">코드 품질 자동 검토 (보안, 예외, 가독성)</p>
+        </div>
+
+        <div class="bg-gray-900 border border-yellow-500/30 rounded-lg p-3">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-mono text-yellow-400">REQ-04</span>
+            <span class="text-xs text-yellow-400">⚠️</span>
+          </div>
+          <p class="text-xs text-gray-300">태스크 간 의존 관계 순환 감지</p>
+          <p class="text-xs text-yellow-600 mt-1">TASK 미연결</p>
+        </div>
+
+        <div class="bg-gray-900 border border-gray-700 rounded-lg p-3 opacity-50">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-xs font-mono text-gray-500">REQ-05</span>
+            <span class="text-xs text-gray-600">—</span>
+          </div>
+          <p class="text-xs text-gray-500">PR 설명 자동 생성</p>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+</body>
+</html>
