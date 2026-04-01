@@ -1,14 +1,4 @@
-export type FileItem = {
-  id: string
-  name: string
-  template: string
-}
-
-export type Phase = {
-  id: string
-  label: string
-  files: FileItem[]
-}
+import type { Phase } from './types'
 
 export const PHASES: Phase[] = [
   {
