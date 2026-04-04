@@ -5,6 +5,7 @@ import {
   detectPhase,
   PHASE_FOLDERS,
   PHASE_GROUPS,
+  phaseStatusToGroupId,
   saveCurrentFile,
   scanPhaseFolder,
 } from '../entities/project'
@@ -156,44 +157,23 @@ export function App() {
 
           <div className="flex flex-1 overflow-hidden">
             {/* 좌측: 폴더 탭 + 파일 목록 */}
-            <div className="flex flex-col w-44 shrink-0 border-r border-zinc-200 bg-zinc-50">
-              {/* 폴더 탭 */}
-              <div className="border-b border-zinc-200">
-                {currentFolders.map((folderName) => {
-                  const config = PHASE_FOLDERS.find(
-                    (f) => f.folderName === folderName,
-                  )
-                  const isActive = folderName === activeFolderName
-                  const hasFiles = (folderFiles[folderName] ?? []).length > 0
-                  return (
-                    <button
-                      type="button"
-                      key={folderName}
-                      onClick={() => handleFolderChange(folderName)}
-                      className={[
-                        'w-full text-left px-4 py-2.5 text-xs font-mono transition-colors flex items-center justify-between',
-                        isActive
-                          ? 'bg-zinc-100 text-zinc-900 font-semibold'
-                          : 'text-zinc-400 hover:text-zinc-600 hover:bg-zinc-50',
-                      ].join(' ')}
-                    >
-                      <span>{config?.label ?? folderName}</span>
-                      {hasFiles && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-300" />
-                      )}
-                    </button>
-                  )
-                })}
-              </div>
-
-              {/* 파일 목록 */}
-              <FileSidebar
-                folderName={activeFolderName}
-                files={folderFiles[activeFolderName] ?? []}
-                activeFileName={activeFile?.entry.name ?? ''}
-                onFileChange={(entry) => selectFile(entry, activeFolderName)}
-              />
-            </div>
+            <FileSidebar
+              folders={currentFolders.map((folderName) => {
+                const config = PHASE_FOLDERS.find(
+                  (f) => f.folderName === folderName,
+                )
+                return {
+                  folderName,
+                  label: config?.label ?? folderName,
+                  hasFiles: (folderFiles[folderName] ?? []).length > 0,
+                }
+              })}
+              activeFolderName={activeFolderName}
+              onFolderChange={handleFolderChange}
+              files={folderFiles[activeFolderName] ?? []}
+              activeFileName={activeFile?.entry.name ?? ''}
+              onFileChange={(entry) => selectFile(entry, activeFolderName)}
+            />
 
             {/* 에디터 + AI 패널 */}
             <div className="flex-1 flex flex-col overflow-hidden">
@@ -231,19 +211,4 @@ export function App() {
       )}
     </div>
   )
-}
-
-function phaseStatusToGroupId(status: PhaseStatus): string {
-  switch (status) {
-    case 'plan-not-started':
-    case 'plan-in-progress':
-      return 'plan'
-    case 'design':
-      return 'design'
-    case 'build':
-      return 'build'
-    case 'deliver-ready':
-    case 'deliver-done':
-      return 'deliver'
-  }
 }

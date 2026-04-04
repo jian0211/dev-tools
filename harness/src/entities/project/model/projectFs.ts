@@ -3,14 +3,13 @@ import {
   dirExists,
   fileExists,
   getDirHandle,
-  getFileHandle,
   getOrCreateDir,
   getOrCreateFile,
   listDirEntries,
   readFile,
   writeFile,
 } from '../../../shared/lib/fs'
-import type { FileEntry, FolderContent, PhaseStatus, Project } from './types'
+import type { FileEntry, PhaseStatus, Project } from './types'
 
 const HARNESS_DIR = '.harness'
 
@@ -157,20 +156,6 @@ export async function archiveAndWrite(
 }
 
 /**
- * current.md 읽기. 없으면 빈 문자열 반환.
- */
-export async function readCurrentFile(
-  projectDir: FileSystemDirectoryHandle,
-  folderName: string,
-): Promise<string> {
-  const dir = await getDirHandle(projectDir, folderName)
-  if (!dir) return ''
-  const handle = await getFileHandle(dir, 'current.md')
-  if (!handle) return ''
-  return await readFile(handle)
-}
-
-/**
  * current.md 저장 (아카이브 없이 단순 저장)
  */
 export async function saveCurrentFile(
@@ -181,16 +166,4 @@ export async function saveCurrentFile(
   const dir = await getOrCreateDir(projectDir, folderName)
   const handle = await getOrCreateFile(dir, 'current.md')
   await writeFile(handle, content)
-}
-
-/**
- * 폴더 전체 콘텐츠 로드
- */
-export async function loadFolderContent(
-  projectDir: FileSystemDirectoryHandle,
-  folderName: string,
-  options: { hasHistory: boolean; sequential: boolean },
-): Promise<FolderContent> {
-  const files = await scanPhaseFolder(projectDir, folderName, options)
-  return { folderName, files }
 }
