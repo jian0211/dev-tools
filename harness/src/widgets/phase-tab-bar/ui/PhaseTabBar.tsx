@@ -24,7 +24,12 @@ function getPhaseIndex(status: PhaseStatus): number {
   }
 }
 
-export function PhaseTabBar({ phases, activePhaseId, phaseStatus, onPhaseChange }: Props) {
+export function PhaseTabBar({
+  phases,
+  activePhaseId,
+  phaseStatus,
+  onPhaseChange,
+}: Props) {
   const currentPhaseIndex = getPhaseIndex(phaseStatus)
 
   return (
@@ -38,6 +43,7 @@ export function PhaseTabBar({ phases, activePhaseId, phaseStatus, onPhaseChange 
 
           return (
             <button
+              type="button"
               key={phase.id}
               onClick={() => onPhaseChange(phase.id)}
               className={[
@@ -53,16 +59,14 @@ export function PhaseTabBar({ phases, activePhaseId, phaseStatus, onPhaseChange 
                   isActive
                     ? 'bg-zinc-900'
                     : isDone
-                    ? 'bg-emerald-400'
-                    : isCurrent
-                    ? 'bg-zinc-400'
-                    : 'bg-zinc-200',
+                      ? 'bg-emerald-400'
+                      : isCurrent
+                        ? 'bg-zinc-400'
+                        : 'bg-zinc-200',
                 ].join(' ')}
               />
               {phase.label}
-              {isDone && (
-                <span className="text-xs text-emerald-400">✓</span>
-              )}
+              {isDone && <span className="text-xs text-emerald-400">✓</span>}
             </button>
           )
         })}

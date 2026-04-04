@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Harness UI Mockup</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f0f; color: #e0e0e0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+    .header { background: #1a1a1a; border-bottom: 1px solid #222; padding: 9px 16px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .project-name { font-size: 13px; font-weight: 600; color: #fff; }
+    .iteration-badge { background: #222; border: 1px solid #333; border-radius: 4px; padding: 1px 7px; font-size: 11px; color: #666; }
+
+    .phase-bar { background: #161616; border-bottom: 1px solid #222; padding: 0 16px; display: flex; flex-shrink: 0; }
+    .phase-tab { padding: 9px 16px; font-size: 12px; cursor: pointer; border-bottom: 2px solid transparent; color: #444; display: flex; align-items: center; gap: 5px; }
+    .phase-tab.active { color: #fff; border-bottom-color: #4f8ef7; }
+    .phase-tab.done { color: #4ade80; }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: #333; }
+    .phase-tab.active .dot { background: #4f8ef7; }
+    .phase-tab.done .dot { background: #4ade80; }
+
+    .main { display: flex; flex: 1; overflow: hidden; }
+
+    .sidebar { width: 190px; background: #111; border-right: 1px solid #1e1e1e; padding: 10px 0; flex-shrink: 0; }
+    .sidebar-file { padding: 7px 14px; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; color: #555; }
+    .sidebar-file:hover { background: #1a1a1a; color: #aaa; }
+    .sidebar-file.active { background: #1a1a1a; color: #fff; }
+    .file-status { font-size: 10px; padding: 1px 5px; border-radius: 8px; }
+    .s-pending { background: #f59e0b12; color: #f59e0b; border: 1px solid #f59e0b2a; }
+    .s-empty { background: #2222; color: #333; border: 1px solid #2a2a2a; }
+
+    .content { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+    /* Doc */
+    .doc-scroll { flex: 1; overflow-y: auto; padding: 20px 28px 8px; }
+    .doc-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+    .doc-name { font-size: 13px; font-weight: 600; color: #fff; }
+    .ai-badge { background: #4f8ef712; color: #4f8ef7; border: 1px solid #4f8ef72a; font-size: 10px; padding: 1px 6px; border-radius: 6px; }
+
+    /* Doc segments — each is a commentable block */
+    .doc-segment { position: relative; }
+
+    .seg-content { padding: 3px 6px; border-radius: 4px; line-height: 1.9; cursor: text; border: 1px solid transparent; transition: background 0.1s; }
+    .seg-content:hover { background: #181818; }
+    .seg-content.highlighted { background: #f59e0b0d; }
+
+    /* highlight span inside text */
+    ::selection { background: #4f8ef733; }
+    mark.sel-highlight { background: #f59e0b22; border-bottom: 1px solid #f59e0b55; border-radius: 2px; }
+
+    .t-h1 { font-size: 15px; font-weight: 700; color: #fff; }
+    .t-h2 { font-size: 11px; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: 0.6px; margin-top: 6px; }
+    .t-body { font-size: 13px; color: #777; }
+    .val { color: #4f8ef7; font-weight: 500; }
+    .warn { color: #f59e0b; }
+
+    /* Floating button */
+    #sel-bubble {
+      position: fixed;
+      display: none;
+      z-index: 200;
+      background: #1e1e1e;
+      border: 1px solid #2e2e2e;
+      border-radius: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+      overflow: hidden;
+    }
+    #sel-bubble.show { display: flex; }
+    #sel-bubble button {
+      background: transparent;
+      color: #bbb;
+      border: none;
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    #sel-bubble button:hover { background: #2a2a2a; color: #fff; }
+
+    /* Inline comment input — appears right below the segment */
+    .comment-input-block {
+      background: #131313;
+      border-left: 2px solid #4f8ef766;
+      margin: 2px 0 6px 6px;
+      border-radius: 0 6px 6px 0;
+      overflow: hidden;
+      animation: slideDown 0.12s ease;
+    }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+
+    .comment-quote {
+      padding: 6px 12px 0;
+      font-size: 11px;
+      color: #4f8ef766;
+      font-style: italic;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .comment-input-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px 8px;
+    }
+    .comment-prompt-label { font-size: 11px; color: #4f8ef7; flex-shrink: 0; }
+    .comment-input-field {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #2a2a2a;
+      color: #e0e0e0;
+      font-size: 13px;
+      outline: none;
+      padding: 2px 0 3px;
+      font-family: inherit;
+    }
+    .comment-input-field::placeholder { color: #333; }
+    .comment-input-field:focus { border-bottom-color: #4f8ef755; }
+    .comment-enter-hint { font-size: 10px; color: #2a2a2a; padding: 0 12px 6px; }
+
+    /* Saved comment block */
+    .comment-block {
+      background: #0f0f0f;
+      border-left: 2px solid #f59e0b44;
+      margin: 2px 0 6px 6px;
+      border-radius: 0 6px 6px 0;
+      padding: 6px 12px 8px;
+    }
+    .comment-block .c-quote {
+      font-size: 11px; color: #f59e0b55; font-style: italic;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 3px;
+    }
+    .comment-block .c-author { font-size: 10px; color: #f59e0b77; margin-bottom: 2px; }
+    .comment-block .c-text { font-size: 12px; color: #999; line-height: 1.5; }
+
+    /* Review bar */
+    .review-bar { border-top: 1px solid #1a1a1a; background: #111; flex-shrink: 0; }
+    .review-meta { padding: 7px 16px 0; display: flex; align-items: center; gap: 8px; }
+    .comment-count { font-size: 11px; color: #333; }
+    .comment-count .cnt { color: #f59e0b88; font-weight: 600; }
+
+    .review-input-wrap { display: flex; align-items: flex-end; gap: 8px; padding: 6px 14px 12px; }
+    .review-prompt { flex: 1; display: flex; align-items: flex-end; gap: 8px; background: #161616; border: 1px solid #242424; border-radius: 8px; padding: 7px 10px; transition: border-color 0.15s; }
+    .review-prompt:focus-within { border-color: #4f8ef744; }
+    .prompt-label { font-size: 11px; color: #4f8ef7; white-space: nowrap; padding-bottom: 1px; flex-shrink: 0; }
+    .review-input { flex: 1; background: transparent; border: none; color: #e0e0e0; font-size: 13px; outline: none; resize: none; line-height: 1.5; max-height: 72px; font-family: inherit; }
+    .review-input::placeholder { color: #2e2e2e; }
+    .send-btn { width: 26px; height: 26px; border-radius: 5px; background: #4f8ef7; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .send-btn:hover { background: #3a7de0; }
+    .send-btn svg { width: 12px; height: 12px; fill: #fff; }
+    .approve-btn { padding: 6px 14px; background: #4ade8015; color: #4ade80; border: 1px solid #4ade8030; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+    .approve-btn:hover { background: #4ade8028; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <span class="project-name">SEO 개선 프로젝트</span>
+  <span class="iteration-badge">Iteration 1</span>
+</div>
+
+<div class="phase-bar">
+  <div class="phase-tab done"><span class="dot"></span> Plan</div>
+  <div class="phase-tab active"><span class="dot"></span> Design</div>
+  <div class="phase-tab"><span class="dot"></span> Build</div>
+  <div class="phase-tab"><span class="dot"></span> Deliver</div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sidebar-file active">spec.md <span class="file-status s-pending">검토중</span></div>
+    <div class="sidebar-file">architecture.md <span class="file-status s-empty">대기</span></div>
+    <div class="sidebar-file">tasks.md <span class="file-status s-empty">대기</span></div>
+  </div>
+
+  <div class="content">
+    <div class="doc-scroll" id="doc-scroll">
+      <div class="doc-meta">
+        <span class="doc-name">spec.md</span>
+        <span class="ai-badge">AI 생성됨</span>
+      </div>
+
+      <div class="doc-segment" data-id="s1">
+        <div class="seg-content t-h1"># SEO 개선 — Spec</div>
+      </div>
+
+      <div class="doc-segment" data-id="s2">
+        <div class="seg-content t-h2">## 범위</div>
+      </div>
+      <div class="doc-segment" data-id="s3">
+        <div class="seg-content t-body">홈페이지, 제품 상세, 블로그 목록 3개 페이지 대상</div>
+      </div>
+
+      <div class="doc-segment" data-id="s4">
+        <div class="seg-content t-h2">## 완료 기준</div>
+      </div>
+      <div class="doc-segment" data-id="s5">
+        <div class="seg-content t-body">• Lighthouse Performance: <span class="val">65 → 90 이상</span></div>
+      </div>
+      <div class="doc-segment" data-id="s6">
+        <div class="seg-content t-body">• Core Web Vitals LCP: 4.2s → 2.5s 이하</div>
+      </div>
+      <div class="doc-segment" data-id="s7">
+        <div class="seg-content t-body">• 메타태그 누락 페이지 <span class="val">0개</span></div>
+      </div>
+
+      <!-- Example existing comment -->
+      <div class="comment-block">
+        <div class="c-quote">"메타태그 누락 페이지 0개"</div>
+        <div class="c-author">나</div>
+        <div class="c-text">블로그는 동적 생성이라 자동화 어려울 수 있음. 별도 처리 방안 필요하지 않을까?</div>
+      </div>
+
+      <div class="doc-segment" data-id="s8">
+        <div class="seg-content t-h2">## 현재 수치 (AI 감사)</div>
+      </div>
+      <div class="doc-segment" data-id="s9">
+        <div class="seg-content t-body">• Lighthouse: <span class="warn">65점</span></div>
+      </div>
+      <div class="doc-segment" data-id="s10">
+        <div class="seg-content t-body">• 미설정 메타태그: 12개 페이지</div>
+      </div>
+      <div class="doc-segment" data-id="s11">
+        <div class="seg-content t-body">• 이미지 alt 누락: 34개</div>
+      </div>
+
+      <div class="doc-segment" data-id="s12">
+        <div class="seg-content t-h2">## 검증 방법</div>
+      </div>
+      <div class="doc-segment" data-id="s13">
+        <div class="seg-content t-body">• Lighthouse CI 자동 측정</div>
+      </div>
+      <div class="doc-segment" data-id="s14">
+        <div class="seg-content t-body">• Google Search Console 크롤링 오류 0건</div>
+      </div>
+
+      <div style="height: 32px;"></div>
+    </div>
+
+    <!-- Floating selection bubble -->
+    <div id="sel-bubble">
+      <button onclick="startComment()">💬 코멘트 달기</button>
+    </div>
+
+    <!-- Review bar -->
+    <div class="review-bar">
+      <div class="review-meta">
+        <span class="comment-count">인라인 코멘트 <span class="cnt" id="cnt">1</span>개</span>
+      </div>
+      <div class="review-input-wrap">
+        <div class="review-prompt">
+          <span class="prompt-label">리뷰 ></span>
+          <textarea class="review-input" id="review-input" rows="1"
+            placeholder="전체 리뷰 코멘트 입력 후 Enter"
+            oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"
+            onkeydown="handleEnter(event)"></textarea>
+          <button class="send-btn" onclick="submitReview()">
+            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          </button>
+        </div>
+        <button class="approve-btn" onclick="approve()">승인 ✓</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let savedRange = null;
+  let selectedText = '';
+  let targetSegment = null;
+  let commentCount = 1;
+
+  document.addEventListener('mouseup', (e) => {
+    if (e.target.closest('#sel-bubble')) return;
+
+    const sel = window.getSelection();
+    const text = sel?.toString().trim();
+
+    if (!text || text.length < 2) { hideBubble(); return; }
+
+    const doc = document.getElementById('doc-scroll');
+    if (!sel.anchorNode || !doc.contains(sel.anchorNode)) { hideBubble(); return; }
+
+    // Find which segment the selection is in
+    const segment = sel.anchorNode.nodeType === 3
+      ? sel.anchorNode.parentElement.closest('.doc-segment')
+      : sel.anchorNode.closest?.('.doc-segment');
+
+    if (!segment) { hideBubble(); return; }
+
+    savedRange = sel.getRangeAt(0).cloneRange();
+    selectedText = text;
+    targetSegment = segment;
+
+    const rect = savedRange.getBoundingClientRect();
+    const bubble = document.getElementById('sel-bubble');
+    const bw = 130;
+    bubble.style.top = (rect.top - 36) + 'px';
+    bubble.style.left = Math.max(8, rect.left + rect.width / 2 - bw / 2) + 'px';
+    bubble.classList.add('show');
+  });
+
+  document.addEventListener('mousedown', (e) => {
+    if (!e.target.closest('#sel-bubble') && !e.target.closest('.comment-input-block')) {
+      hideBubble();
+    }
+  });
+
+  function hideBubble() {
+    document.getElementById('sel-bubble').classList.remove('show');
+  }
+
+  function startComment() {
+    hideBubble();
+    if (!targetSegment || !selectedText) return;
+
+    // Highlight selected text
+    if (savedRange) {
+      try {
+        const mark = document.createElement('mark');
+        mark.className = 'sel-highlight';
+        savedRange.surroundContents(mark);
+      } catch(e) {}
+    }
+
+    // Remove any existing open input
+    document.querySelectorAll('.comment-input-block').forEach(el => el.remove());
+
+    const quote = selectedText.length > 60 ? selectedText.slice(0, 60) + '…' : selectedText;
+
+    // Insert input RIGHT after the target segment
+    const block = document.createElement('div');
+    block.className = 'comment-input-block';
+    block.innerHTML = `
+      <div class="comment-quote">"${quote}"</div>
+      <div class="comment-input-row">
+        <span class="comment-prompt-label">></span>
+        <input class="comment-input-field" placeholder="코멘트 입력 후 Enter…" autocomplete="off" />
+      </div>
+      <div class="comment-enter-hint">Enter — 추가 &nbsp;·&nbsp; Esc — 취소</div>
+    `;
+
+    targetSegment.after(block);
+
+    const input = block.querySelector('.comment-input-field');
+    input.focus();
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const val = input.value.trim();
+        if (!val) { block.remove(); return; }
+        saveComment(block, quote, val);
+      }
+      if (e.key === 'Escape') {
+        block.remove();
+        // remove highlight
+        document.querySelectorAll('mark.sel-highlight').forEach(m => {
+          m.replaceWith(...m.childNodes);
+        });
+      }
+    });
+
+    savedRange = null;
+    targetSegment = null;
+    selectedText = '';
+  }
+
+  function saveComment(inputBlock, quote, text) {
+    const commentBlock = document.createElement('div');
+    commentBlock.className = 'comment-block';
+    commentBlock.innerHTML = `
+      <div class="c-quote">"${quote}"</div>
+      <div class="c-author">나</div>
+      <div class="c-text">${text}</div>
+    `;
+    inputBlock.replaceWith(commentBlock);
+    commentCount++;
+    document.getElementById('cnt').textContent = commentCount;
+  }
+
+  function handleEnter(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      submitReview();
+    }
+  }
+
+  function submitReview() {
+    const input = document.getElementById('review-input');
+    input.value = '';
+    input.style.height = 'auto';
+    const btn = document.querySelector('.send-btn');
+    btn.style.background = '#22c55e';
+    setTimeout(() => btn.style.background = '#4f8ef7', 700);
+  }
+
+  function approve() {
+    const btn = document.querySelector('.approve-btn');
+    btn.textContent = '승인됨 ✓';
+    btn.style.background = '#4ade8030';
+    btn.style.color = '#4ade80';
+  }
+</script>
+</body>
+</html>

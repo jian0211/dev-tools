@@ -1,12 +1,19 @@
-export type { Project, PhaseStatus, FileEntry, FolderContent, PhaseFolderConfig, PhaseGroup } from './model/types'
-export { PHASE_FOLDERS, PHASE_GROUPS } from './model/types'
 export {
-  listProjects,
+  archiveAndWrite,
   createProject,
   detectPhase,
-  scanPhaseFolder,
-  archiveAndWrite,
+  listProjects,
+  loadFolderContent,
   readCurrentFile,
   saveCurrentFile,
-  loadFolderContent,
+  scanPhaseFolder,
 } from './model/projectFs'
+export type {
+  FileEntry,
+  FolderContent,
+  PhaseFolderConfig,
+  PhaseGroup,
+  PhaseStatus,
+  Project,
+} from './model/types'
+export { PHASE_FOLDERS, PHASE_GROUPS } from './model/types'

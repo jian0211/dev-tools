@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Pipeline Auditor – PRD</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f5f5f5;
+    color: #1a1a1a;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* ── Top step tabs ── */
+  .step-tabs {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding: 0 32px;
+    height: 44px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .step-tabs a {
+    text-decoration: none;
+    color: #999;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    padding-bottom: 2px;
+  }
+  .step-tabs a.active {
+    color: #1a1a1a;
+    border-bottom: 2px solid #1a1a1a;
+    font-weight: 600;
+  }
+
+  /* ── Page body ── */
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 36px 32px;
+  }
+
+  /* ── Header ── */
+  .page-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .page-desc {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  /* ── Tag pills ── */
+  .tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    background: #efefef;
+    color: #555;
+    border: 1px solid #e0e0e0;
+  }
+  .tag.blue  { background: #e8f0fe; color: #3367d6; border-color: #c6d8fc; }
+  .tag.green { background: #e6f4ea; color: #2e7d32; border-color: #c0e0c5; }
+  .tag.gray  { background: #f1f3f4; color: #5f6368; border-color: #dadce0; }
+  .tag-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* ── Section tabs (Meeting Log / CPS / PRD) ── */
+  .section-tabs {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 24px;
+  }
+  .section-tabs button {
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    font-size: 12px;
+    cursor: pointer;
+    color: #999;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .section-tabs button.active {
+    color: #1a1a1a;
+    border-bottom-color: #1a1a1a;
+    font-weight: 600;
+  }
+  .section-tabs .tab-badge {
+    display: inline-block;
+    font-size: 10px;
+    color: #aaa;
+    margin-left: 4px;
+  }
+
+  /* ── Pipeline flow banner ── */
+  .pipeline-banner {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 12px;
+    color: #444;
+  }
+  .pipeline-banner .pipe-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #999;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .pipeline-flow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .pipe-step {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    background: #f5f5f5;
+    color: #444;
+    border: 1px solid #e0e0e0;
+  }
+  .pipe-step.highlight { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .pipe-arrow { color: #bbb; font-size: 12px; }
+  .pipe-feedback { font-size: 10px; color: #e53935; margin-left: 4px; }
+
+  /* ── Two-column layout: sidebar + content ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* ── Sidebar TOC ── */
+  .sidebar {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 16px;
+    position: sticky;
+    top: 16px;
+  }
+  .sidebar-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #aaa;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .toc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+  }
+  .toc-item:last-child { border-bottom: none; }
+  .toc-num {
+    font-size: 10px;
+    color: #bbb;
+    min-width: 20px;
+    font-variant-numeric: tabular-nums;
+    padding-top: 1px;
+  }
+  .toc-label { font-size: 12px; color: #444; line-height: 1.4; }
+  .toc-item.active .toc-label { color: #1a1a1a; font-weight: 600; }
+  .toc-item.active .toc-num { color: #1a1a1a; }
+
+  /* ── Main PRD content ── */
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 20px 24px;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .card-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .card-title { font-size: 14px; font-weight: 700; }
+  .card-subtitle { font-size: 11px; color: #999; margin-left: auto; }
+
+  .card p { color: #555; font-size: 12.5px; margin-bottom: 8px; }
+  .card ul { padding-left: 16px; color: #555; font-size: 12.5px; }
+  .card ul li { margin-bottom: 4px; }
+  .card ul li strong { color: #1a1a1a; }
+
+  /* status badge */
+  .status-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .status-badge {
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .status-badge.pass  { background: #e6f4ea; color: #2e7d32; }
+  .status-badge.warn  { background: #fff8e1; color: #f57c00; }
+  .status-badge.fail  { background: #fce8e6; color: #c62828; }
+  .status-badge.info  { background: #e8f0fe; color: #3367d6; }
+
+  /* table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  th {
+    text-align: left;
+    padding: 6px 10px;
+    background: #f5f5f5;
+    border: 1px solid #e8e8e8;
+    color: #555;
+    font-weight: 600;
+    font-size: 11px;
+  }
+  td {
+    padding: 6px 10px;
+    border: 1px solid #e8e8e8;
+    color: #444;
+  }
+
+  /* code block */
+  .code-block {
+    background: #f8f8f8;
+    border: 1px solid #e8e8e8;
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 11.5px;
+    color: #333;
+    overflow-x: auto;
+    white-space: pre;
+    margin-top: 10px;
+    line-height: 1.7;
+  }
+
+  /* checklist */
+  .checklist { list-style: none; padding: 0; margin-top: 8px; }
+  .checklist li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 0;
+    font-size: 12.5px;
+    color: #555;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-box {
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid #d0d0d0;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* meta footer */
+  .meta-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 11px;
+    color: #aaa;
+    padding-top: 12px;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 12px;
+  }
+  .meta-row span strong { color: #888; }
+</style>
+</head>
+<body>
+
+<!-- Step tabs -->
+<nav class="step-tabs">
+  <a href="#">01 Input</a>
+  <a href="#">02 Plan</a>
+  <a href="#" class="active">03 PRD</a>
+  <a href="#">04 Design</a>
+  <a href="#">05 Code</a>
+  <a href="#">06 Lint</a>
+  <a href="#">07 Merge</a>
+  <a href="#">08 PR</a>
+</nav>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="page-title">AI 파이프라인 감사관 (AI Pipeline Auditor)</div>
+  <div class="page-desc">요건 정의부터 PR 생성까지의 전 흐름을 자동으로 검토·감사하는 툴 · PRD 문서</div>
+
+  <!-- Tags -->
+  <div class="tags">
+    <span class="tag gray"><span class="tag-dot"></span>작성일: 2026-03-31</span>
+    <span class="tag blue"><span class="tag-dot"></span>상태: 초안</span>
+    <span class="tag green"><span class="tag-dot"></span>실행환경: Claude Code</span>
+    <span class="tag gray"><span class="tag-dot"></span>에이전트: 오케스트레이터 + 서브에이전트</span>
+  </div>
+
+  <!-- Pipeline flow banner -->
+  <div class="pipeline-banner">
+    <div class="pipe-title">파이프라인 전체 흐름</div>
+    <div class="pipeline-flow">
+      <span class="pipe-step">00 변경관리</span>
+      <span class="pipe-arrow">→</span>
+      <span class="pipe-step highlight">01 요건정의</span>
+      <span class="pipe-arrow">→</span>
+      <span class="pipe-step">02 요건리뷰<span class="pipe-feedback">❌→01</span></span>
+      <span class="pipe-arrow">→</span>
+      <span class="pipe-step">03 태스크분해</span>
+      <span class="pipe-arrow">→</span>
+      <span class="pipe-step">04 분해검토<span class="pipe-feedback">❌→03</span></span>
+      <span class="pipe-arrow">→</span>
+      <span class="pipe-step">05 실행(병렬)</span>
+      <span class="pipe-arrow">→</span>
+      <span class="pipe-step">06 코드리뷰<span class="pipe-feedback">❌→05</span></span>
+      <span class="pipe-arrow">→</span>
+      <span class="pipe-step">07 머지</span>
+      <span class="pipe-arrow">→</span>
+      <span class="pipe-step">08 통합검토</span>
+      <span class="pipe-arrow">→</span>
+      <span class="pipe-step">09 PR생성</span>
+    </div>
+  </div>
+
+  <!-- Section tabs -->
+  <div class="section-tabs">
+    <button class="active">PRD <span class="tab-badge">초안</span></button>
+    <button>파일 구조 <span class="tab-badge">/pipeline</span></button>
+    <button>에이전트 구조</button>
+    <button>변경 이력</button>
+  </div>
+
+  <!-- Body: sidebar + content -->
+  <div class="layout">
+
+    <!-- TOC sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-title">목차</div>
+      <div class="toc-item"><span class="toc-num">1</span><span class="toc-label">개요</span></div>
+      <div class="toc-item"><span class="toc-num">2</span><span class="toc-label">파이프라인 전체 흐름</span></div>
+      <div class="toc-item active"><span class="toc-num">3</span><span class="toc-label">각 단계 상세</span></div>
+      <div class="toc-item"><span class="toc-num">4</span><span class="toc-label">파일 구조</span></div>
+      <div class="toc-item"><span class="toc-num">5</span><span class="toc-label">에이전트 구조</span></div>
+      <div class="toc-item"><span class="toc-num">6</span><span class="toc-label">미결 사항 (TODO)</span></div>
+      <div class="toc-item"><span class="toc-num">7</span><span class="toc-label">변경 이력</span></div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="content">
+
+      <!-- 1. 개요 -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-num">1</span>
+          <span class="card-title">개요</span>
+          <span class="card-subtitle">Overview</span>
+        </div>
+        <p><strong>배경</strong> — AI가 코드를 생성하는 개발 환경에서, 요건 정의부터 PR 생성까지의 전 흐름을 자동으로 검토·감사하는 툴이 필요하다.</p>
+        <ul>
+          <li>요건 → AI 코드 생성 → 검토 → 머지 → PR 생성까지의 파이프라인을 <strong>자동화</strong></li>
+          <li>각 단계를 <strong>독립적인 서브에이전트</strong>로 운영하여 효율적인 실행과 검토를 실현</li>
+          <li>요건 변경에 <strong>유연하게 대응</strong>하는 구조 확보</li>
+        </ul>
+        <div class="status-row">
+          <span class="status-badge info">실행환경: Claude Code</span>
+          <span class="status-badge info">오케스트레이터 + 서브에이전트</span>
+          <span class="status-badge pass">MD 파일 기반 룰 관리</span>
+        </div>
+      </div>
+
+      <!-- 00. 변경 관리 -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-num" style="background:#888;">00</span>
+          <span class="card-title">변경 관리 (Change Management)</span>
+          <span class="card-subtitle">상시 참조</span>
+        </div>
+        <p>요건 변경 발생 시 항상 참조하는 공통 룰. 변경 규모에 따라 재시작 지점을 결정한다.</p>
+        <table>
+          <thead><tr><th>변경 규모</th><th>재시작 지점</th></tr></thead>
+          <tbody>
+            <tr><td>소규모 (일부 스펙 수정)</td><td>05 태스크 실행</td></tr>
+            <tr><td>중규모 (기능 추가·삭제)</td><td>03 태스크 분해</td></tr>
+            <tr><td>대규모 (요건 근본 변경)</td><td>01 요건 정의</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 01 ~ 09 단계 카드 -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-num">01</span>
+          <span class="card-title">요건 정의 (Requirements Define)</span>
+        </div>
+        <ul>
+          <li>사람이 직접 작성하거나, AI에게 초안 작성을 의뢰</li>
+          <li>AI 초안의 경우 <strong>사람의 승인</strong>이 필요</li>
+          <li>각 요건에 고유 ID (<strong>REQ-XX</strong>) 부여</li>
+          <li>기능 요건 / 비기능 요건으로 분류</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-num">02</span>
+          <span class="card-title">요건 리뷰 (Requirements Review)</span>
+        </div>
+        <ul>
+          <li>모호성·누락·일관성·실현 가능성·테스트 가능성 검토</li>
+          <li>각 요건에 상태 부여</li>
+          <li>전체 ✅ 판정 시에만 다음 단계로 진행</li>
+        </ul>
+        <div class="status-row">
+          <span class="status-badge pass">✅ 통과</span>
+          <span class="status-badge warn">⚠️ 주의</span>
+          <span class="status-badge fail">❌ 실패 → 01 피드백</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-num">03</span>
+          <span class="card-title">태스크 분해 (Task Decomposition)</span>
+        </div>
+        <ul>
+          <li>AI가 MD 지시사항 기반으로 요건을 태스크로 분해</li>
+          <li><strong>1 태스크 = 1 PR 단위</strong>의 작은 구현 단위</li>
+          <li>각 태스크에 ID (<strong>TASK-XX</strong>), 의존 관계, 병렬 가능 여부 명시</li>
+          <li>모든 요건이 최소 하나의 태스크와 연결되어야 함</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-num">04</span>
+          <span class="card-title">태스크 분해 검토 (Task Decomposition Review)</span>
+        </div>
+        <ul>
+          <li>분해 결과가 요건을 올바르게 커버하는지 검토</li>
+          <li>의존 관계의 순환 여부 확인</li>
+          <li>지나치게 큰 태스크(L 사이즈)는 재분해 요청</li>
+        </ul>
+        <div class="status-row">
+          <span class="status-badge fail">❌ 실패 → 03 피드백</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-num">05</span>
+          <span class="card-title">태스크 실행 (Task Execution)</span>
+          <span class="card-subtitle">병렬 가능</span>
+        </div>
+        <ul>
+          <li>각 태스크를 <strong>독립 서브에이전트</strong>로 실행</li>
+          <li>의존 관계가 없는 태스크는 <strong>병렬 실행</strong></li>
+          <li>코드 생성 기반: 해당 태스크의 요건 + 팀 컨벤션</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-num">06</span>
+          <span class="card-title">태스크 코드 리뷰 (Task Code Review)</span>
+        </div>
+        <ul>
+          <li>요건 충족도 (요건 ↔ 코드 매핑)</li>
+          <li>코드 품질 (보안, 예외 처리, 가독성)</li>
+          <li>요건 외 임의 구현 감지</li>
+          <li>실패 시 해당 태스크만 05로 재실행</li>
+        </ul>
+        <div class="status-row">
+          <span class="status-badge fail">❌ 실패 → 05 재실행</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-num">07</span>
+          <span class="card-title">태스크 머지 (Merge)</span>
+        </div>
+        <ul>
+          <li>검토 통과된 태스크를 머지</li>
+          <li>의존 관계에 따른 머지 순서 준수</li>
+          <li>커밋 컨벤션 적용 / 충돌 감지 및 처리</li>
+        </ul>
+        <div class="code-block">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt; [TASK-XX]
+타입: feat / fix / refactor / test / docs / chore
+예시: feat(auth): 로그인 토큰 검증 추가 [TASK-03]</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-num">08</span>
+          <span class="card-title">통합 검토 (Integration Review)</span>
+        </div>
+        <ul>
+          <li>모든 태스크 머지 완료 후 전체를 하나로 보는 최종 검토</li>
+          <li>태스크 간 충돌 및 누락 확인</li>
+          <li>전체 요건 커버리지 최종 확인</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-num">09</span>
+          <span class="card-title">PR 생성 (PR Generation)</span>
+        </div>
+        <ul>
+          <li>연관 요건과 태스크를 연결한 PR 설명 자동 생성</li>
+          <li>PR 간 관계 명시 (선행 PR / 후속 PR)</li>
+          <li>트레이드오프는 팀 기준에 맞게 커스텀 작성</li>
+        </ul>
+        <div class="code-block">## 개요
+## 연관 요건 (REQ-XX)
+## 이 PR의 역할 (PR 간 관계)
+## 구현 내용
+## 트레이드오프
+## 테스트 방법</div>
+      </div>
+
+      <!-- 6. 미결 사항 -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-num">6</span>
+          <span class="card-title">미결 사항 (TODO)</span>
+        </div>
+        <ul class="checklist">
+          <li><span class="check-box"></span>각 단계 MD 파일 상세 작성</li>
+          <li><span class="check-box"></span>CLAUDE.md 오케스트레이터 프롬프트 작성</li>
+          <li><span class="check-box"></span>커스텀 조건 항목 팀별 기준 정의</li>
+          <li><span class="check-box"></span>PR 트레이드오프 작성 기준 구체화</li>
+          <li><span class="check-box"></span>PoC 모드 / 정식 개발 모드 엄격도 레벨 정의</li>
+        </ul>
+        <div class="meta-row">
+          <span><strong>작성일</strong> 2026-03-31</span>
+          <span><strong>상태</strong> 초안</span>
+          <span><strong>파일</strong> PRD_AI_Pipeline_Auditor.md</span>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+</body>
+</html>

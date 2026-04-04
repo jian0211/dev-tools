@@ -27,13 +27,16 @@ export function FileEditor({
           <span className="text-xs font-mono text-zinc-400">{folderName}/</span>
           <span className="text-xs font-mono text-zinc-700">{fileName}</span>
           {!isEditable && (
-            <span className="ml-2 text-xs text-zinc-400 bg-zinc-100 px-1.5 py-0.5 rounded">읽기 전용</span>
+            <span className="ml-2 text-xs text-zinc-400 bg-zinc-100 px-1.5 py-0.5 rounded">
+              읽기 전용
+            </span>
           )}
         </div>
 
         {isEditable && (
           <div className="flex items-center gap-2">
             <button
+              type="button"
               onClick={onArchive}
               className="text-xs text-zinc-400 hover:text-zinc-600 transition-colors px-2 py-1 rounded hover:bg-zinc-100"
               title="현재 내용을 날짜 파일로 보관하고 저장"
@@ -41,6 +44,7 @@ export function FileEditor({
               아카이브 & 저장
             </button>
             <button
+              type="button"
               onClick={onSave}
               disabled={isSaving}
               className="text-xs bg-zinc-800 text-white hover:bg-zinc-700 transition-colors px-3 py-1 rounded disabled:opacity-50"

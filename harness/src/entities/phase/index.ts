@@ -1,2 +1,2 @@
-export type { Phase, FileItem } from './model/types'
 export { PHASES } from './model/phases'
+export type { FileItem, Phase } from './model/types'
