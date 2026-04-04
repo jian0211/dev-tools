@@ -1,19 +1,20 @@
-import { useState, useCallback } from 'react'
-import { PhaseTabBar } from '../widgets/phase-tab-bar'
-import { FileSidebar } from '../widgets/file-sidebar'
-import { FileEditor } from '../widgets/file-editor'
-import { ProjectSelector } from '../widgets/project-selector'
-import { Header } from '../shared/ui/Header'
-import type { Project, PhaseStatus, FileEntry } from '../entities/project'
+import { useState } from 'react'
+import type { FileEntry, PhaseStatus, Project } from '../entities/project'
 import {
-  PHASE_GROUPS,
-  PHASE_FOLDERS,
-  detectPhase,
-  scanPhaseFolder,
-  saveCurrentFile,
   archiveAndWrite,
+  detectPhase,
+  PHASE_FOLDERS,
+  PHASE_GROUPS,
+  saveCurrentFile,
+  scanPhaseFolder,
 } from '../entities/project'
 import { readFile } from '../shared/lib/fs'
+import { Header } from '../shared/ui/Header'
+import { AiPanel } from '../widgets/ai-panel'
+import { FileEditor } from '../widgets/file-editor'
+import { FileSidebar } from '../widgets/file-sidebar'
+import { PhaseTabBar } from '../widgets/phase-tab-bar'
+import { ProjectSelector } from '../widgets/project-selector'
 
 type ActiveFile = {
   entry: FileEntry
@@ -23,27 +24,27 @@ type ActiveFile = {
 
 export function App() {
   const [activeProject, setActiveProject] = useState<Project | null>(null)
-  const [phaseStatus, setPhaseStatus] = useState<PhaseStatus>('plan-not-started')
+  const [phaseStatus, setPhaseStatus] =
+    useState<PhaseStatus>('plan-not-started')
   const [activePhaseId, setActivePhaseId] = useState<string>('plan')
-  const [folderFiles, setFolderFiles] = useState<Record<string, FileEntry[]>>({})
+  const [folderFiles, setFolderFiles] = useState<Record<string, FileEntry[]>>(
+    {},
+  )
   const [activeFolderName, setActiveFolderName] = useState<string>('prd')
   const [activeFile, setActiveFile] = useState<ActiveFile | null>(null)
   const [isSaving, setIsSaving] = useState(false)
 
   /** 프로젝트 선택 시 초기화 */
-  const handleProjectSelect = useCallback(
-    async (project: Project, _root: FileSystemDirectoryHandle) => {
-      setActiveProject(project)
+  async function handleProjectSelect(project: Project) {
+    setActiveProject(project)
 
-      const status = await detectPhase(project.dirHandle)
-      setPhaseStatus(status)
+    const status = await detectPhase(project.dirHandle)
+    setPhaseStatus(status)
 
-      const phaseId = phaseStatusToGroupId(status)
-      setActivePhaseId(phaseId)
-      await loadPhase(project, phaseId)
-    },
-    []
-  )
+    const phaseId = phaseStatusToGroupId(status)
+    setActivePhaseId(phaseId)
+    await loadPhase(project, phaseId)
+  }
 
   /** phase의 폴더들 파일 로드 */
   async function loadPhase(project: Project, phaseId: string) {
@@ -105,10 +106,14 @@ export function App() {
 
   /** 저장 (아카이브 없이) */
   async function handleSave() {
-    if (!activeProject || !activeFile || !activeFile.entry.isEditable) return
+    if (!activeProject || !activeFile?.entry.isEditable) return
     setIsSaving(true)
     try {
-      await saveCurrentFile(activeProject.dirHandle, activeFile.folderName, activeFile.content)
+      await saveCurrentFile(
+        activeProject.dirHandle,
+        activeFile.folderName,
+        activeFile.content,
+      )
     } finally {
       setIsSaving(false)
     }
@@ -116,10 +121,14 @@ export function App() {
 
   /** 아카이브 & 저장 (이전본 날짜 파일로 보관 후 current 갱신) */
   async function handleArchive() {
-    if (!activeProject || !activeFile || !activeFile.entry.isEditable) return
+    if (!activeProject || !activeFile?.entry.isEditable) return
     setIsSaving(true)
     try {
-      await archiveAndWrite(activeProject.dirHandle, activeFile.folderName, activeFile.content)
+      await archiveAndWrite(
+        activeProject.dirHandle,
+        activeFile.folderName,
+        activeFile.content,
+      )
       // 히스토리 목록 새로고침
       await loadPhase(activeProject, activePhaseId)
     } finally {
@@ -151,11 +160,14 @@ export function App() {
               {/* 폴더 탭 */}
               <div className="border-b border-zinc-200">
                 {currentFolders.map((folderName) => {
-                  const config = PHASE_FOLDERS.find((f) => f.folderName === folderName)
+                  const config = PHASE_FOLDERS.find(
+                    (f) => f.folderName === folderName,
+                  )
                   const isActive = folderName === activeFolderName
                   const hasFiles = (folderFiles[folderName] ?? []).length > 0
                   return (
                     <button
+                      type="button"
                       key={folderName}
                       onClick={() => handleFolderChange(folderName)}
                       className={[
@@ -166,7 +178,9 @@ export function App() {
                       ].join(' ')}
                     >
                       <span>{config?.label ?? folderName}</span>
-                      {hasFiles && <span className="w-1.5 h-1.5 rounded-full bg-zinc-300" />}
+                      {hasFiles && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-300" />
+                      )}
                     </button>
                   )
                 })}
@@ -181,23 +195,37 @@ export function App() {
               />
             </div>
 
-            {/* 에디터 */}
-            {activeFile ? (
-              <FileEditor
-                folderName={activeFile.folderName}
-                fileName={activeFile.entry.name}
-                content={activeFile.content}
-                isEditable={activeFile.entry.isEditable}
-                isSaving={isSaving}
-                onChange={handleContentChange}
-                onSave={handleSave}
-                onArchive={handleArchive}
+            {/* 에디터 + AI 패널 */}
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {activeFile ? (
+                <FileEditor
+                  folderName={activeFile.folderName}
+                  fileName={activeFile.entry.name}
+                  content={activeFile.content}
+                  isEditable={activeFile.entry.isEditable}
+                  isSaving={isSaving}
+                  onChange={handleContentChange}
+                  onSave={handleSave}
+                  onArchive={handleArchive}
+                />
+              ) : (
+                <div className="flex-1 flex items-center justify-center text-sm text-zinc-300">
+                  파일을 선택하거나 새로 만드세요
+                </div>
+              )}
+              <AiPanel
+                projectName={activeProject.name}
+                phaseId={activePhaseId}
+                folderName={activeFolderName}
+                fileName={activeFile?.entry.name ?? ''}
+                fileContent={activeFile?.content ?? ''}
+                onApplyContent={(content) => {
+                  if (activeFile?.entry.isEditable) {
+                    handleContentChange(content)
+                  }
+                }}
               />
-            ) : (
-              <div className="flex-1 flex items-center justify-center text-sm text-zinc-300">
-                파일을 선택하거나 새로 만드세요
-              </div>
-            )}
+            </div>
           </div>
         </>
       )}

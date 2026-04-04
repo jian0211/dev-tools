@@ -10,7 +10,7 @@ export async function pickRootDirectory(): Promise<FileSystemDirectoryHandle> {
 
 /** 디렉토리 내 모든 항목을 [name, handle] 배열로 반환 */
 export async function listDirEntries(
-  dir: FileSystemDirectoryHandle
+  dir: FileSystemDirectoryHandle,
 ): Promise<[string, FileSystemHandle][]> {
   const entries: [string, FileSystemHandle][] = []
   for await (const [name, handle] of dir) {
@@ -22,7 +22,7 @@ export async function listDirEntries(
 /** 디렉토리 핸들에서 서브디렉토리 핸들 반환. 없으면 null. */
 export async function getDirHandle(
   parent: FileSystemDirectoryHandle,
-  name: string
+  name: string,
 ): Promise<FileSystemDirectoryHandle | null> {
   try {
     return await parent.getDirectoryHandle(name)
@@ -34,7 +34,7 @@ export async function getDirHandle(
 /** 디렉토리 핸들에서 서브디렉토리 핸들 반환. 없으면 생성. */
 export async function getOrCreateDir(
   parent: FileSystemDirectoryHandle,
-  name: string
+  name: string,
 ): Promise<FileSystemDirectoryHandle> {
   return await parent.getDirectoryHandle(name, { create: true })
 }
@@ -42,7 +42,7 @@ export async function getOrCreateDir(
 /** 파일 핸들 반환. 없으면 null. */
 export async function getFileHandle(
   dir: FileSystemDirectoryHandle,
-  name: string
+  name: string,
 ): Promise<FileSystemFileHandle | null> {
   try {
     return await dir.getFileHandle(name)
@@ -54,7 +54,7 @@ export async function getFileHandle(
 /** 파일 핸들 반환. 없으면 생성. */
 export async function getOrCreateFile(
   dir: FileSystemDirectoryHandle,
-  name: string
+  name: string,
 ): Promise<FileSystemFileHandle> {
   return await dir.getFileHandle(name, { create: true })
 }
@@ -68,7 +68,7 @@ export async function readFile(handle: FileSystemFileHandle): Promise<string> {
 /** 파일 핸들로 텍스트 쓰기 */
 export async function writeFile(
   handle: FileSystemFileHandle,
-  content: string
+  content: string,
 ): Promise<void> {
   const writable = await handle.createWritable()
   await writable.write(content)
@@ -78,7 +78,7 @@ export async function writeFile(
 /** 디렉토리가 존재하는지 확인 */
 export async function dirExists(
   parent: FileSystemDirectoryHandle,
-  name: string
+  name: string,
 ): Promise<boolean> {
   return (await getDirHandle(parent, name)) !== null
 }
@@ -86,7 +86,7 @@ export async function dirExists(
 /** 파일이 존재하는지 확인 */
 export async function fileExists(
   dir: FileSystemDirectoryHandle,
-  name: string
+  name: string,
 ): Promise<boolean> {
   return (await getFileHandle(dir, name)) !== null
 }

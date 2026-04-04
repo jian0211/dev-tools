@@ -11,7 +11,9 @@ interface FileSystemDirectoryHandle {
 }
 
 interface Window {
-  showDirectoryPicker(options?: { mode?: 'read' | 'readwrite' }): Promise<FileSystemDirectoryHandle>
+  showDirectoryPicker(options?: {
+    mode?: 'read' | 'readwrite'
+  }): Promise<FileSystemDirectoryHandle>
   showOpenFilePicker(options?: object): Promise<FileSystemFileHandle[]>
   showSaveFilePicker(options?: object): Promise<FileSystemFileHandle>
 }

@@ -1,28 +1,30 @@
+import { todayString } from '../../../shared/lib/date'
 import {
-  getDirHandle,
-  getOrCreateDir,
-  getOrCreateFile,
-  getFileHandle,
-  readFile,
-  writeFile,
-  listDirEntries,
   dirExists,
   fileExists,
+  getDirHandle,
+  getFileHandle,
+  getOrCreateDir,
+  getOrCreateFile,
+  listDirEntries,
+  readFile,
+  writeFile,
 } from '../../../shared/lib/fs'
-import { todayString } from '../../../shared/lib/date'
-import type { Project, PhaseStatus, FileEntry, FolderContent } from './types'
+import type { FileEntry, FolderContent, PhaseStatus, Project } from './types'
 
 const HARNESS_DIR = '.harness'
 
 /** 루트 디렉토리에서 .harness/ 핸들을 가져오거나 생성 */
 async function getHarnessDir(
-  root: FileSystemDirectoryHandle
+  root: FileSystemDirectoryHandle,
 ): Promise<FileSystemDirectoryHandle> {
   return await getOrCreateDir(root, HARNESS_DIR)
 }
 
 /** .harness/ 안의 프로젝트 목록 반환 */
-export async function listProjects(root: FileSystemDirectoryHandle): Promise<Project[]> {
+export async function listProjects(
+  root: FileSystemDirectoryHandle,
+): Promise<Project[]> {
   const harnessDir = await getHarnessDir(root)
   const entries = await listDirEntries(harnessDir)
   const projects: Project[] = []
@@ -37,7 +39,7 @@ export async function listProjects(root: FileSystemDirectoryHandle): Promise<Pro
 /** 새 프로젝트 디렉토리 생성 */
 export async function createProject(
   root: FileSystemDirectoryHandle,
-  name: string
+  name: string,
 ): Promise<Project> {
   const harnessDir = await getHarnessDir(root)
   const dirHandle = await getOrCreateDir(harnessDir, name)
@@ -48,12 +50,14 @@ export async function createProject(
  * 파일 존재 여부만으로 현재 phase 판단
  * 폴더 구조 자체가 상태 머신 역할
  */
-export async function detectPhase(projectDir: FileSystemDirectoryHandle): Promise<PhaseStatus> {
-  const hasPrdDir   = await dirExists(projectDir, 'prd')
-  const hasSpecDir  = await dirExists(projectDir, 'spec')
+export async function detectPhase(
+  projectDir: FileSystemDirectoryHandle,
+): Promise<PhaseStatus> {
+  const hasPrdDir = await dirExists(projectDir, 'prd')
+  const hasSpecDir = await dirExists(projectDir, 'spec')
   const hasTasksDir = await dirExists(projectDir, 'tasks')
   const hasReviewDir = await dirExists(projectDir, 'self-review')
-  const hasPrDir    = await dirExists(projectDir, 'pr')
+  const hasPrDir = await dirExists(projectDir, 'pr')
 
   if (!hasPrdDir) return 'plan-not-started'
 
@@ -65,7 +69,9 @@ export async function detectPhase(projectDir: FileSystemDirectoryHandle): Promis
   if (!hasReviewDir) return 'build'
 
   const reviewDir = await getDirHandle(projectDir, 'self-review')
-  const hasReviewCurrent = reviewDir ? await fileExists(reviewDir, 'current.md') : false
+  const hasReviewCurrent = reviewDir
+    ? await fileExists(reviewDir, 'current.md')
+    : false
 
   if (!hasReviewCurrent || !hasPrDir) return 'deliver-ready'
   return 'deliver-done'
@@ -79,7 +85,7 @@ export async function detectPhase(projectDir: FileSystemDirectoryHandle): Promis
 export async function scanPhaseFolder(
   projectDir: FileSystemDirectoryHandle,
   folderName: string,
-  options: { hasHistory: boolean; sequential: boolean }
+  options: { hasHistory: boolean; sequential: boolean },
 ): Promise<FileEntry[]> {
   const dir = await getDirHandle(projectDir, folderName)
   if (!dir) return []
@@ -94,11 +100,26 @@ export async function scanPhaseFolder(
     const fileHandle = handle as FileSystemFileHandle
 
     if (options.sequential) {
-      fileEntries.push({ kind: 'sequential', name, handle: fileHandle, isEditable: true })
+      fileEntries.push({
+        kind: 'sequential',
+        name,
+        handle: fileHandle,
+        isEditable: true,
+      })
     } else if (name === 'current.md') {
-      fileEntries.push({ kind: 'current', name, handle: fileHandle, isEditable: true })
+      fileEntries.push({
+        kind: 'current',
+        name,
+        handle: fileHandle,
+        isEditable: true,
+      })
     } else if (/^\d{4}-\d{2}-\d{2}\.md$/.test(name)) {
-      fileEntries.push({ kind: 'history', name, handle: fileHandle, isEditable: false })
+      fileEntries.push({
+        kind: 'history',
+        name,
+        handle: fileHandle,
+        isEditable: false,
+      })
     }
   }
 
@@ -119,7 +140,7 @@ export async function scanPhaseFolder(
 export async function archiveAndWrite(
   projectDir: FileSystemDirectoryHandle,
   folderName: string,
-  newContent: string
+  newContent: string,
 ): Promise<void> {
   const dir = await getOrCreateDir(projectDir, folderName)
   const currentHandle = await getOrCreateFile(dir, 'current.md')
@@ -140,7 +161,7 @@ export async function archiveAndWrite(
  */
 export async function readCurrentFile(
   projectDir: FileSystemDirectoryHandle,
-  folderName: string
+  folderName: string,
 ): Promise<string> {
   const dir = await getDirHandle(projectDir, folderName)
   if (!dir) return ''
@@ -155,7 +176,7 @@ export async function readCurrentFile(
 export async function saveCurrentFile(
   projectDir: FileSystemDirectoryHandle,
   folderName: string,
-  content: string
+  content: string,
 ): Promise<void> {
   const dir = await getOrCreateDir(projectDir, folderName)
   const handle = await getOrCreateFile(dir, 'current.md')
@@ -168,7 +189,7 @@ export async function saveCurrentFile(
 export async function loadFolderContent(
   projectDir: FileSystemDirectoryHandle,
   folderName: string,
-  options: { hasHistory: boolean; sequential: boolean }
+  options: { hasHistory: boolean; sequential: boolean },
 ): Promise<FolderContent> {
   const files = await scanPhaseFolder(projectDir, folderName, options)
   return { folderName, files }

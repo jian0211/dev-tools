@@ -45,26 +45,41 @@ export type PhaseFolderConfig = {
 }
 
 export const PHASE_FOLDERS: PhaseFolderConfig[] = [
-  { folderName: 'meeting',      hasHistory: true,  sequential: false, label: 'Meeting'      },
-  { folderName: 'cps',          hasHistory: true,  sequential: false, label: 'CPS'          },
-  { folderName: 'prd',          hasHistory: true,  sequential: false, label: 'PRD'          },
-  { folderName: 'spec',         hasHistory: true,  sequential: false, label: 'Spec'         },
-  { folderName: 'architecture', hasHistory: true,  sequential: false, label: 'Architecture' },
-  { folderName: 'tasks',        hasHistory: false, sequential: true,  label: 'Tasks'        },
-  { folderName: 'self-review',  hasHistory: true,  sequential: false, label: 'Self Review'  },
-  { folderName: 'pr',           hasHistory: false, sequential: true,  label: 'PR'           },
+  {
+    folderName: 'meeting',
+    hasHistory: true,
+    sequential: false,
+    label: 'Meeting',
+  },
+  { folderName: 'cps', hasHistory: true, sequential: false, label: 'CPS' },
+  { folderName: 'prd', hasHistory: true, sequential: false, label: 'PRD' },
+  { folderName: 'spec', hasHistory: true, sequential: false, label: 'Spec' },
+  {
+    folderName: 'architecture',
+    hasHistory: true,
+    sequential: false,
+    label: 'Architecture',
+  },
+  { folderName: 'tasks', hasHistory: false, sequential: true, label: 'Tasks' },
+  {
+    folderName: 'self-review',
+    hasHistory: true,
+    sequential: false,
+    label: 'Self Review',
+  },
+  { folderName: 'pr', hasHistory: false, sequential: true, label: 'PR' },
 ]
 
 /** phase 단계별 표시되는 폴더 묶음 */
 export type PhaseGroup = {
   id: 'plan' | 'design' | 'build' | 'deliver'
   label: string
-  folders: string[]  // folderName 목록
+  folders: string[] // folderName 목록
 }
 
 export const PHASE_GROUPS: PhaseGroup[] = [
-  { id: 'plan',    label: 'Plan',    folders: ['meeting', 'cps', 'prd']               },
-  { id: 'design',  label: 'Design',  folders: ['spec', 'architecture', 'tasks']       },
-  { id: 'build',   label: 'Build',   folders: ['self-review']                         },
-  { id: 'deliver', label: 'Deliver', folders: ['pr']                                  },
+  { id: 'plan', label: 'Plan', folders: ['meeting', 'cps', 'prd'] },
+  { id: 'design', label: 'Design', folders: ['spec', 'architecture', 'tasks'] },
+  { id: 'build', label: 'Build', folders: ['self-review'] },
+  { id: 'deliver', label: 'Deliver', folders: ['pr'] },
 ]

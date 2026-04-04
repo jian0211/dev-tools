@@ -101,9 +101,9 @@ harness/src/
 
 ```bash
 cd harness
-pnpm install   # 의존성 설치
-pnpm dev       # 개발 서버
-pnpm build     # 프로덕션 빌드
+npm install   # 의존성 설치
+npm run dev   # 개발 서버
+npm run build # 프로덕션 빌드
 ```
 
 ---
