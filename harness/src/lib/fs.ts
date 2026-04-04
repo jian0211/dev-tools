@@ -15,7 +15,7 @@ export async function listDirEntries(
       e.name,
       e.isDirectory() ? 'directory' : 'file',
     ])
-  } catch {
+  } catch (_e: unknown) {
     return []
   }
 }
