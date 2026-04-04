@@ -1,4 +1,5 @@
 import type { PhaseGroup, PhaseStatus } from '../../../entities/project'
+import { getPhaseGroupIndex } from '../../../entities/project'
 
 type Props = {
   phases: PhaseGroup[]
@@ -7,36 +8,18 @@ type Props = {
   onPhaseChange: (phaseId: string) => void
 }
 
-const PHASE_ORDER: PhaseGroup['id'][] = ['plan', 'design', 'build', 'deliver']
-
-function getPhaseIndex(status: PhaseStatus): number {
-  switch (status) {
-    case 'plan-not-started':
-    case 'plan-in-progress':
-      return 0
-    case 'design':
-      return 1
-    case 'build':
-      return 2
-    case 'deliver-ready':
-    case 'deliver-done':
-      return 3
-  }
-}
-
 export function PhaseTabBar({
   phases,
   activePhaseId,
   phaseStatus,
   onPhaseChange,
 }: Props) {
-  const currentPhaseIndex = getPhaseIndex(phaseStatus)
+  const currentPhaseIndex = getPhaseGroupIndex(phaseStatus)
 
   return (
     <div className="px-6 pt-4 pb-0 border-b border-zinc-200">
       <div className="flex items-center gap-0">
-        {phases.map((phase) => {
-          const i = PHASE_ORDER.indexOf(phase.id)
+        {phases.map((phase, i) => {
           const isActive = phase.id === activePhaseId
           const isDone = i < currentPhaseIndex
           const isCurrent = i === currentPhaseIndex

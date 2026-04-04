@@ -83,3 +83,25 @@ export const PHASE_GROUPS: PhaseGroup[] = [
   { id: 'build', label: 'Build', folders: ['self-review'] },
   { id: 'deliver', label: 'Deliver', folders: ['pr'] },
 ]
+
+/** PhaseStatus → 해당 PhaseGroup id */
+export function phaseStatusToGroupId(status: PhaseStatus): PhaseGroup['id'] {
+  switch (status) {
+    case 'plan-not-started':
+    case 'plan-in-progress':
+      return 'plan'
+    case 'design':
+      return 'design'
+    case 'build':
+      return 'build'
+    case 'deliver-ready':
+    case 'deliver-done':
+      return 'deliver'
+  }
+}
+
+/** PhaseStatus → PHASE_GROUPS 배열 인덱스 (0~3) */
+export function getPhaseGroupIndex(status: PhaseStatus): number {
+  const id = phaseStatusToGroupId(status)
+  return PHASE_GROUPS.findIndex((g) => g.id === id)
+}

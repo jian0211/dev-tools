@@ -4,7 +4,7 @@ import { createProject, listProjects } from '../../../entities/project'
 import { pickRootDirectory } from '../../../shared/lib/fs'
 
 type Props = {
-  onProjectSelect: (project: Project, root: FileSystemDirectoryHandle) => void
+  onProjectSelect: (project: Project) => void
 }
 
 export function ProjectSelector({ onProjectSelect }: Props) {
@@ -38,7 +38,7 @@ export function ProjectSelector({ onProjectSelect }: Props) {
       setLoading(true)
       setError(null)
       const project = await createProject(rootHandle, newProjectName.trim())
-      onProjectSelect(project, rootHandle)
+      onProjectSelect(project)
     } catch {
       setError('프로젝트를 생성할 수 없어요.')
     } finally {
@@ -84,7 +84,7 @@ export function ProjectSelector({ onProjectSelect }: Props) {
                 <button
                   type="button"
                   key={p.name}
-                  onClick={() => onProjectSelect(p, rootHandle)}
+                  onClick={() => onProjectSelect(p)}
                   className="w-full text-left px-4 py-3 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-neutral-700 rounded-lg text-sm text-neutral-200 transition-colors"
                 >
                   {p.name}
