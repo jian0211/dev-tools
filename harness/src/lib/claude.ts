@@ -1,4 +1,4 @@
-import { query } from '@anthropic-ai/claude-agent-sdk'
+import { spawn } from 'node:child_process'
 
 const HARNESS_SYSTEM = `당신은 Harness 개발 워크플로우 도구의 AI 어시스턴트입니다.
 
@@ -31,7 +31,7 @@ export async function streamMessage(
   },
   callbacks: StreamCallbacks,
 ): Promise<void> {
-  const systemPrompt = `${HARNESS_SYSTEM}
+  const fullPrompt = `${HARNESS_SYSTEM}
 
 현재 컨텍스트:
 - 프로젝트: ${context.projectName}
@@ -40,30 +40,43 @@ export async function streamMessage(
 - 파일: ${context.fileName}
 
 현재 파일 내용:
-${context.fileContent || '(비어있음 — 새 문서 생성 필요)'}`
+${context.fileContent || '(비어있음 — 새 문서 생성 필요)'}
+
+---
+
+사용자 요청: ${userPrompt}`
 
   try {
+    const proc = spawn('claude', ['--print', '--output-format', 'text', '-p', fullPrompt], {
+      stdio: ['ignore', 'pipe', 'pipe'],
+    })
+
     let fullText = ''
 
-    for await (const message of query({
-      prompt: userPrompt,
-      options: {
-        maxTurns: 1,
-        systemPrompt,
-        allowedTools: [],
-      },
-    })) {
-      if (message.type === 'assistant') {
-        for (const block of message.message.content) {
-          if (block.type === 'text') {
-            fullText += block.text
-            callbacks.onText(block.text)
-          }
-        }
-      }
-    }
+    proc.stdout.on('data', (chunk: Buffer) => {
+      const text = chunk.toString()
+      fullText += text
+      callbacks.onText(text)
+    })
 
-    callbacks.onDone(fullText)
+    proc.stderr.on('data', (chunk: Buffer) => {
+      const errText = chunk.toString()
+      if (errText.trim()) {
+        callbacks.onError(new Error(errText))
+      }
+    })
+
+    await new Promise<void>((resolve, reject) => {
+      proc.on('close', (code: number | null) => {
+        if (code === 0) {
+          callbacks.onDone(fullText)
+          resolve()
+        } else {
+          reject(new Error(`claude exited with code ${code}`))
+        }
+      })
+      proc.on('error', reject)
+    })
   } catch (err) {
     callbacks.onError(err instanceof Error ? err : new Error(String(err)))
   }
