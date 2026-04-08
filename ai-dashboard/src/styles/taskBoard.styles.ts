@@ -1,0 +1,47 @@
+import type React from 'react';
+
+export const T: Record<string, React.CSSProperties> = {
+  board: { flex: 1, overflow: 'auto', padding: '20px 28px', backgroundColor: '#faf7f2' },
+  boardHeader: {
+    marginBottom: 20, padding: '16px 20px', backgroundColor: '#fff',
+    borderRadius: 14, border: '1px solid #e7e0d5',
+  },
+  boardSummary: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 },
+  boardTitle: { fontSize: 16, fontWeight: 600, color: '#1c1917', letterSpacing: -0.3 },
+  boardCount: { fontSize: 12, color: '#a8a29e' },
+  boardProgress: { height: 6, backgroundColor: '#f0ebe3', borderRadius: 3, overflow: 'hidden', marginBottom: 10 },
+  boardProgressFill: { height: '100%', backgroundColor: '#c2703e', borderRadius: 3, transition: 'width 0.3s' },
+  boardStats: { display: 'flex', gap: 8 },
+  statBadge: { padding: '3px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600 },
+  cardList: { display: 'flex', flexDirection: 'column' as const, gap: 10 },
+  card: { backgroundColor: '#fff', border: '1px solid #e7e0d5', borderRadius: 12, overflow: 'hidden', transition: 'box-shadow 0.15s' },
+  cardHeader: {
+    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+    width: '100%', padding: '12px 16px', background: 'none', border: 'none',
+    cursor: 'pointer', textAlign: 'left' as const,
+  },
+  cardHeaderLeft: { display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 },
+  statusDot: { width: 8, height: 8, borderRadius: '50%', flexShrink: 0 },
+  cardTitle: {
+    fontSize: 14, fontWeight: 600, color: '#1c1917', letterSpacing: -0.2,
+    overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const,
+  },
+  cardHeaderRight: { display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 },
+  cardPct: { fontSize: 12, fontWeight: 600, color: '#78716c', fontFamily: 'monospace' },
+  expandIcon: { fontSize: 11, color: '#a8a29e' },
+  cardBody: { padding: '0 16px 12px' },
+  cardSummary: { margin: '0 0 8px', fontSize: 12, color: '#78716c', lineHeight: 1.4 },
+  cardProgressBg: { height: 4, backgroundColor: '#f0ebe3', borderRadius: 2, overflow: 'hidden', marginBottom: 8 },
+  cardProgressFill: { height: '100%', borderRadius: 2, transition: 'width 0.3s' },
+  cardMeta: { display: 'flex', gap: 10, alignItems: 'center' },
+  cardMetaText: { fontSize: 11, color: '#a8a29e', fontWeight: 500 },
+  cardMetaDate: { fontSize: 10, color: '#a8a29e', fontFamily: 'monospace' },
+  cardMetaFile: {
+    fontSize: 10, color: '#c2703e', fontFamily: '"SF Mono", monospace',
+    overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const, maxWidth: 200,
+  },
+  cardExpanded: { padding: '0 16px 14px', borderTop: '1px solid #f0ebe3', paddingTop: 12 },
+  checkItem: { display: 'flex', alignItems: 'flex-start', gap: 8, padding: '3px 0' },
+  checkBox: { fontSize: 14, lineHeight: '1.3', flexShrink: 0 },
+  checkText: { fontSize: 13, color: '#2d2b28', lineHeight: 1.4 },
+};

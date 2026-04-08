@@ -1,0 +1,61 @@
+import type React from 'react';
+
+export const P: Record<string, React.CSSProperties> = {
+  board: { flex: 1, overflow: 'auto', padding: '20px 28px', backgroundColor: '#faf7f2' },
+  prSelector: { display: 'flex', gap: 6, marginBottom: 16 },
+  prSelectorBtn: {
+    padding: '5px 14px', background: 'none', border: '1px solid #ddd5c8',
+    borderRadius: 8, color: '#78716c', cursor: 'pointer', fontSize: 12, fontWeight: 500,
+  },
+  prSelectorBtnActive: { backgroundColor: '#fff', color: '#1c1917', borderColor: '#c2703e' },
+  prHeader: {
+    padding: '20px 24px', backgroundColor: '#fff', borderRadius: 14,
+    border: '1px solid #e7e0d5', marginBottom: 16,
+  },
+  prTitleRow: { display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 },
+  prStatusIcon: { fontSize: 18, color: '#15803d', fontWeight: 700 },
+  prTitle: { margin: 0, fontSize: 17, fontWeight: 600, color: '#1c1917', letterSpacing: -0.3 },
+  prMeta: { display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10, flexWrap: 'wrap' as const },
+  prBranch: {
+    padding: '2px 8px', backgroundColor: '#f0ebe3', borderRadius: 6,
+    fontSize: 11, fontFamily: '"SF Mono", "Fira Code", monospace', color: '#78716c',
+  },
+  prAuthor: { fontSize: 12, color: '#78716c' },
+  prReviewers: { fontSize: 12, color: '#a8a29e' },
+  prSummary: { margin: '0 0 12px', fontSize: 13, color: '#57534e', lineHeight: 1.5 },
+  prStats: { display: 'flex', gap: 12, flexWrap: 'wrap' as const },
+  prStatItem: { fontSize: 11, color: '#a8a29e', fontWeight: 500 },
+  taskList: { display: 'flex', flexDirection: 'column' as const, gap: 8 },
+  taskCard: { backgroundColor: '#fff', border: '1px solid #e7e0d5', borderRadius: 12, overflow: 'hidden' },
+  taskHeader: {
+    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+    width: '100%', padding: '14px 16px', background: 'none', border: 'none',
+    cursor: 'pointer', textAlign: 'left' as const,
+  },
+  taskHeaderLeft: { display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 },
+  taskCheck: { fontSize: 16, flexShrink: 0, lineHeight: '1' },
+  taskTitle: { fontSize: 14, fontWeight: 600, color: '#1c1917', letterSpacing: -0.2 },
+  taskHeaderRight: { display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 },
+  commitCount: {
+    fontSize: 11, color: '#a8a29e', fontWeight: 500,
+    padding: '2px 8px', backgroundColor: '#f5f0e8', borderRadius: 6,
+  },
+  expandIcon: { fontSize: 11, color: '#a8a29e' },
+  taskDesc: { margin: 0, padding: '0 16px 12px 42px', fontSize: 12, color: '#78716c', lineHeight: 1.4 },
+  taskExpanded: { borderTop: '1px solid #f0ebe3', padding: '14px 16px 14px 42px' },
+  commitSection: { marginBottom: 14 },
+  commitSectionLabel: {
+    fontSize: 10, fontWeight: 600, color: '#a8a29e',
+    textTransform: 'uppercase' as const, letterSpacing: 0.8, marginBottom: 8,
+  },
+  commitRow: { display: 'flex', alignItems: 'flex-start', gap: 10, padding: '4px 0' },
+  commitHash: {
+    fontSize: 11, fontFamily: '"SF Mono", "Fira Code", monospace', color: '#c2703e',
+    backgroundColor: '#fdf8f3', padding: '1px 6px', borderRadius: 4, flexShrink: 0, fontWeight: 500,
+  },
+  commitMsg: { fontSize: 12, color: '#2d2b28', lineHeight: 1.4 },
+  filesSection: { marginTop: 2 },
+  fileRow: { display: 'flex', alignItems: 'center', gap: 6, padding: '3px 0' },
+  fileIcon: { fontSize: 12, flexShrink: 0 },
+  filePath: { fontSize: 11, fontFamily: '"SF Mono", "Fira Code", monospace', color: '#57534e' },
+};
