@@ -8,16 +8,16 @@
 
 | フォルダ | すること |
 | --- | --- |
-| [01-frame](01-frame/) | 問題を切る。調査と仕様もここ。 |
-| [02-shape](02-shape/) | 範囲と設計を決める。 |
-| [03-build](03-build/) | 作る。環境構築もここ。 |
-| [04-check](04-check/) | 合っているか見る。テストとレビュー。 |
-| [05-keep](05-keep/) | 出したものを直す。障害、修正、リファクタ。 |
+| [01-spec](01-spec/) | 何を作るか書く。調査と仕様。 |
+| [02-design](02-design/) | どう作るか決める。構造、API、作業分解。 |
+| [03-implement](03-implement/) | 作る。環境構築もここ。 |
+| [04-test](04-test/) | 合っているか確かめる。テストとレビュー。 |
+| [05-maintain](05-maintain/) | 出したものを直す。障害、修正、リファクタ。 |
 
 ## スキルフォルダ
 
 ```text
-03-build/test-driven-development/
+03-implement/test-driven-development/
   SKILL.md
   origin.md
   trial.md
