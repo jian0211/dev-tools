@@ -41,11 +41,11 @@ Explanations of a skill or a stage are written in Korean and Japanese. Headings,
 4. Fill `trial.md` after using it once.
 5. Add a status and a one-line note to that stage README.
 
-## Styles
+## 06-styles
 
 출력 방식만 바꾸는 것은 단계 밖에 둔다. 원문은 가져오지 않고, 그 버전의 링크만 남긴다.
 
 話し方だけを変えるものは段階の外に置く。原文は持ち込まず、そのバージョンのリンクだけ残す。
 
-- [attention-span 0.8](styles/attention-span/)
+- [attention-span 0.8](06-styles/attention-span/)
 
