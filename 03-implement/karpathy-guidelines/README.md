@@ -7,3 +7,16 @@ LLM がコードを書くときの失敗を減らす行動指針。実装、レ�
 호출하는 절차는 [SKILL.md](SKILL.md)에 참고한 원문 그대로 둔다. 이 파일은 설명만 담는다.
 
 呼び出す手順は [SKILL.md](SKILL.md) に、参考にした原文のまま置く。このファイルは説明だけを置く。
+
+## Source
+
+- author: Andrej Karpathy's observations, packaged by multica-ai
+- url: https://x.com/karpathy/status/2015883857489522876
+- skill: https://github.com/multica-ai/andrej-karpathy-skills/blob/main/skills/karpathy-guidelines/SKILL.md
+- license: MIT
+- imported: 2026-10-06
+
+출처와 라이선스는 여기 둔다. `SKILL.md`는 참고한 원문 그대로다.
+
+出典とライセンスはここへ置く。`SKILL.md` は参考にした原文のまま。
+

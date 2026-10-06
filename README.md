@@ -21,7 +21,7 @@ Depth 1 is a stage, depth 2 is a skill name, depth 3 is `scripts/` or `reference
 ```text
 03-implement/test-driven-development/
   SKILL.md
-  origin.md
+  README.md
   trial.md
   scripts/       # only when needed
   references/    # only when needed
@@ -37,6 +37,6 @@ Explanations of a skill or a stage are written in Korean and Japanese. Headings,
 
 1. Create a skill folder under the stage.
 2. Rewrite `SKILL.md` as the trigger you will actually use, not as a summary of the source.
-3. Record author, URL, license, import date, and changes in `origin.md`.
+3. Put the source, license, and a Korean and Japanese explanation in `README.md`.
 4. Fill `trial.md` after using it once.
 5. Add a status and a one-line note to that stage README.
