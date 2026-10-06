@@ -1,8 +1,8 @@
 # frame
 
-문제를 자른다. 조사와 스펙도 여기 들어간다.
+問題を切る。調査と仕様もここ。
 
-| 스킬 | 상태 | 한 줄 |
+| スキル | 状態 | 一行 |
 | --- | --- | --- |
-| [framing-problem](framing-problem/) | trial | 아직 반입 전 |
-| [writing-a-spec](writing-a-spec/) | trial | 아직 반입 전 |
+| [framing-problem](framing-problem/) | trial | まだ未取り込み |
+| [writing-a-spec](writing-a-spec/) | trial | まだ未取り込み |

@@ -1,9 +1,9 @@
 # shape
 
-범위와 설계를 정한다. 구조, API, 작업 분해가 여기 들어간다.
+範囲と設計を決める。構造、API、作業分解もここ。
 
-| 스킬 | 상태 | 한 줄 |
+| スキル | 状態 | 一行 |
 | --- | --- | --- |
-| [writing-an-adr](writing-an-adr/) | trial | 아직 반입 전 |
-| [designing-api-contract](designing-api-contract/) | trial | 아직 반입 전 |
-| [slicing-work](slicing-work/) | trial | 아직 반입 전 |
+| [writing-an-adr](writing-an-adr/) | trial | まだ未取り込み |
+| [designing-api-contract](designing-api-contract/) | trial | まだ未取り込み |
+| [slicing-work](slicing-work/) | trial | まだ未取り込み |

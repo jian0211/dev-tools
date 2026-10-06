@@ -1,8 +1,8 @@
 # check
 
-맞는지 본다. 테스트와 리뷰가 여기 들어간다.
+合っているか見る。テストとレビューもここ。
 
-| 스킬 | 상태 | 한 줄 |
+| スキル | 状態 | 一行 |
 | --- | --- | --- |
-| [requesting-code-review](requesting-code-review/) | trial | 아직 반입 전 |
-| [checking-ci](checking-ci/) | trial | 아직 반입 전 |
+| [requesting-code-review](requesting-code-review/) | trial | まだ未取り込み |
+| [checking-ci](checking-ci/) | trial | まだ未取り込み |
