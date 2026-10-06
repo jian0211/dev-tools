@@ -6,3 +6,5 @@
 | --- | --- | --- |
 | [systematic-debugging](systematic-debugging/) | trial | まだ未取り込み |
 | [refactoring-safely](refactoring-safely/) | trial | まだ未取り込み |
+
+実装・修正中の判断は [karpathy-guidelines](../03-implement/karpathy-guidelines/) を使う。ここには置かない。
