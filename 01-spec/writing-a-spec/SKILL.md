@@ -1,14 +1,18 @@
 ---
 name: writing-a-spec
-description: 仕様を書く手順。まだ未取り込み。原文を直してから書く。
+description: 스펙을 쓰는 절차. 仕様を書く手順。 Not imported yet. Rewrite this after adapting the source.
 ---
 
 # writing-a-spec
 
-まだ未取り込み。原文を直したあと、このファイルを呼び出す手順として書き直す。
+스펙을 쓰는 절차.
 
-## いつ
+仕様を書く手順。
 
-## 手順
+Not imported yet. Rewrite this file as the procedure you will call.
 
-## 終わったら
+## When
+
+## Steps
+
+## Done when

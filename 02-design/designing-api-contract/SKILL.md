@@ -1,14 +1,18 @@
 ---
 name: designing-api-contract
-description: API の契約を決める手順。まだ未取り込み。原文を直してから書く。
+description: API 계약을 정하는 절차. API の契約を決める手順。 Not imported yet. Rewrite this after adapting the source.
 ---
 
 # designing-api-contract
 
-まだ未取り込み。原文を直したあと、このファイルを呼び出す手順として書き直す。
+API 계약을 정하는 절차.
 
-## いつ
+API の契約を決める手順。
 
-## 手順
+Not imported yet. Rewrite this file as the procedure you will call.
 
-## 終わったら
+## When
+
+## Steps
+
+## Done when

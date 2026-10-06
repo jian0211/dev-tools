@@ -1,14 +1,18 @@
 ---
 name: writing-an-adr
-description: 設計判断を ADR として残す手順。まだ未取り込み。原文を直してから書く。
+description: 설계 결정을 ADR로 남기는 절차. 設計判断を ADR として残す手順。 Not imported yet. Rewrite this after adapting the source.
 ---
 
 # writing-an-adr
 
-まだ未取り込み。原文を直したあと、このファイルを呼び出す手順として書き直す。
+설계 결정을 ADR로 남기는 절차.
 
-## いつ
+設計判断を ADR として残す手順。
 
-## 手順
+Not imported yet. Rewrite this file as the procedure you will call.
 
-## 終わったら
+## When
+
+## Steps
+
+## Done when

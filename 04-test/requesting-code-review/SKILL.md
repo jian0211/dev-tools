@@ -1,14 +1,18 @@
 ---
 name: requesting-code-review
-description: コードレビューを頼む手順。まだ未取り込み。原文を直してから書く。
+description: 코드 리뷰를 요청하는 절차. コードレビューを頼む手順。 Not imported yet. Rewrite this after adapting the source.
 ---
 
 # requesting-code-review
 
-まだ未取り込み。原文を直したあと、このファイルを呼び出す手順として書き直す。
+코드 리뷰를 요청하는 절차.
 
-## いつ
+コードレビューを頼む手順。
 
-## 手順
+Not imported yet. Rewrite this file as the procedure you will call.
 
-## 終わったら
+## When
+
+## Steps
+
+## Done when

@@ -1,14 +1,18 @@
 ---
 name: slicing-vertical
-description: 薄く切った一片で実装する手順。まだ未取り込み。原文を直してから書く。
+description: 얇게 자른 조각으로 구현하는 절차. 薄く切った一片で実装する手順。 Not imported yet. Rewrite this after adapting the source.
 ---
 
 # slicing-vertical
 
-まだ未取り込み。原文を直したあと、このファイルを呼び出す手順として書き直す。
+얇게 자른 조각으로 구현하는 절차.
 
-## いつ
+薄く切った一片で実装する手順。
 
-## 手順
+Not imported yet. Rewrite this file as the procedure you will call.
 
-## 終わったら
+## When
+
+## Steps
+
+## Done when

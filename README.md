@@ -1,38 +1,42 @@
 # dev-tools
 
+유명 스킬을 내 워크플로에 맞게 고쳐 두고, 써본 뒤 좋고 나쁨을 남기는 저장소.
+
 有名なスキルを自分のワークフローに合わせて直し、使ったあとに向き不向きを残すリポジトリ。
 
-1階層は段階、2階層はスキル名、3階層は `scripts/` か `references/` があるときだけ使う。
+Depth 1 is a stage, depth 2 is a skill name, depth 3 is `scripts/` or `references/` only when needed.
 
-## 段階
+## Stages
 
-| フォルダ | すること |
+| Folder | What it holds |
 | --- | --- |
-| [01-spec](01-spec/) | 何を作るか書く。調査と仕様。 |
-| [02-design](02-design/) | どう作るか決める。構造、API、作業分解。 |
-| [03-implement](03-implement/) | 作る。環境構築もここ。 |
-| [04-test](04-test/) | 合っているか確かめる。テストとレビュー。 |
-| [05-maintain](05-maintain/) | 出したものを直す。障害、修正、リファクタ。 |
+| [01-spec](01-spec/) | 무엇을 만들지 글로 남긴다. 조사와 스펙. / 何を作るか書く。調査と仕様。 |
+| [02-design](02-design/) | 어떻게 만들지 정한다. 구조, API, 작업 분해. / どう作るか決める。構造、API、作業分解。 |
+| [03-implement](03-implement/) | 만든다. 환경 구성도 여기. / 作る。環境構築もここ。 |
+| [04-test](04-test/) | 맞는지 본다. 테스트와 리뷰. / 合っているか確かめる。テストとレビュー。 |
+| [05-maintain](05-maintain/) | 나간 것을 고친다. 장애, 수정, 리팩터. / 出したものを直す。障害、修正、リファクタ。 |
 
-## スキルフォルダ
+## Skill folder
 
 ```text
 03-implement/test-driven-development/
   SKILL.md
   origin.md
   trial.md
-  scripts/       # あるときだけ
-  references/    # あるときだけ
+  scripts/       # only when needed
+  references/    # only when needed
 ```
 
-名前は小文字とハイフンだけにする。段階の言葉は付けない。一つのスキルはいちばんよく使う段階にだけ置き、ほかの段階は README にリンクだけ書く。
+Names use lowercase letters and hyphens. Do not repeat the stage name. Keep one copy in the stage where it is used most, and link it from other stage READMEs.
 
-状態は `trial`、`adopted`、`dropped`。まだ使っていなければ `trial`。
+Status is `trial`, `adopted`, or `dropped`. Unused skills stay `trial`.
 
-## 追加
+Explanations of a skill or a stage are written in Korean and Japanese. Headings, fields, and status values stay in English.
 
-1. 段階の下にスキルフォルダを作る。
-2. `SKILL.md` は原文の要約ではなく、自分のトリガーで書き直した手順にする。
-3. `origin.md` に著者、URL、ライセンス、取り込んだ日付、変えた点を書く。
-4. 一度使ったあと `trial.md` を埋める。
-5. その段階の README に状態と一行を足す。
+## Add a skill
+
+1. Create a skill folder under the stage.
+2. Rewrite `SKILL.md` as the trigger you will actually use, not as a summary of the source.
+3. Record author, URL, license, import date, and changes in `origin.md`.
+4. Fill `trial.md` after using it once.
+5. Add a status and a one-line note to that stage README.

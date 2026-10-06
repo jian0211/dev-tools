@@ -1,14 +1,18 @@
 ---
 name: test-driven-development
-description: 失敗するテストを先に書いて実装する手順。まだ未取り込み。原文を直してから書く。
+description: 실패하는 테스트를 먼저 쓰고 구현하는 절차. 失敗するテストを先に書いて実装する手順。 Not imported yet. Rewrite this after adapting the source.
 ---
 
 # test-driven-development
 
-まだ未取り込み。原文を直したあと、このファイルを呼び出す手順として書き直す。
+실패하는 테스트를 먼저 쓰고 구현하는 절차.
 
-## いつ
+失敗するテストを先に書いて実装する手順。
 
-## 手順
+Not imported yet. Rewrite this file as the procedure you will call.
 
-## 終わったら
+## When
+
+## Steps
+
+## Done when

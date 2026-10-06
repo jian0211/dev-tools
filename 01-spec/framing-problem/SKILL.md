@@ -1,14 +1,18 @@
 ---
 name: framing-problem
-description: 問題を切る手順。まだ未取り込み。原文を直してから書く。
+description: 문제를 자르는 절차. 問題を切る手順。 Not imported yet. Rewrite this after adapting the source.
 ---
 
 # framing-problem
 
-まだ未取り込み。原文を直したあと、このファイルを呼び出す手順として書き直す。
+문제를 자르는 절차.
 
-## いつ
+問題を切る手順。
 
-## 手順
+Not imported yet. Rewrite this file as the procedure you will call.
 
-## 終わったら
+## When
+
+## Steps
+
+## Done when

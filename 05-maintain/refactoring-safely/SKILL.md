@@ -1,14 +1,18 @@
 ---
 name: refactoring-safely
-description: 動作を保ったまま直す手順。まだ未取り込み。原文を直してから書く。
+description: 동작을 유지한 채 고치는 절차. 動作を保ったまま直す手順。 Not imported yet. Rewrite this after adapting the source.
 ---
 
 # refactoring-safely
 
-まだ未取り込み。原文を直したあと、このファイルを呼び出す手順として書き直す。
+동작을 유지한 채 고치는 절차.
 
-## いつ
+動作を保ったまま直す手順。
 
-## 手順
+Not imported yet. Rewrite this file as the procedure you will call.
 
-## 終わったら
+## When
+
+## Steps
+
+## Done when

@@ -1,14 +1,18 @@
 ---
 name: systematic-debugging
-description: 原因を段階的に絞る手順。まだ未取り込み。原文を直してから書く。
+description: 원인을 단계로 좁히는 절차. 原因を段階的に絞る手順。 Not imported yet. Rewrite this after adapting the source.
 ---
 
 # systematic-debugging
 
-まだ未取り込み。原文を直したあと、このファイルを呼び出す手順として書き直す。
+원인을 단계로 좁히는 절차.
 
-## いつ
+原因を段階的に絞る手順。
 
-## 手順
+Not imported yet. Rewrite this file as the procedure you will call.
 
-## 終わったら
+## When
+
+## Steps
+
+## Done when
