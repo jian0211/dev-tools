@@ -6,8 +6,6 @@
 
 | Skill | Status | Note |
 | --- | --- | --- |
-| [systematic-debugging](systematic-debugging/) | trial | 원인을 단계로 좁히는 절차. / 原因を段階的に絞る手順。 |
-| [refactoring-safely](refactoring-safely/) | trial | 동작을 유지한 채 고치는 절차. / 動作を保ったまま直す手順。 |
 
 구현·수정 중의 판단은 [karpathy-guidelines](../03-implement/karpathy-guidelines/)를 쓴다. 여기에는 두지 않는다.
 

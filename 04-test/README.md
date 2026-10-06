@@ -6,8 +6,6 @@
 
 | Skill | Status | Note |
 | --- | --- | --- |
-| [requesting-code-review](requesting-code-review/) | trial | 코드 리뷰를 요청하는 절차. / コードレビューを頼む手順。 |
-| [checking-ci](checking-ci/) | trial | CI 결과를 확인하는 절차. / CI の結果を確認する手順。 |
 
 구현·수정 중의 판단은 [karpathy-guidelines](../03-implement/karpathy-guidelines/)를 쓴다. 여기에는 두지 않는다.
 

@@ -19,7 +19,7 @@ Depth 1 is a stage, depth 2 is a skill name, depth 3 is `scripts/` or `reference
 ## Skill folder
 
 ```text
-03-implement/test-driven-development/
+03-implement/karpathy-guidelines/
   SKILL.md
   README.md
   trial.md
