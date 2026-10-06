@@ -1,34 +1,67 @@
 ---
 name: karpathy-guidelines
-description: 구현이나 수정 요청이 오면 가정, 더 단순한 방법, 성공 조건을 먼저 말한 뒤 요청한 줄만 고친다. 자잘한 오타 수정에는 쓰지 않는다. 実装や修正の依頼が来たら、仮定とより単純な方法と成功条件を先に言ってから、頼まれた行だけ直す。誤字修正のような小さい依頼では使わない。
+description: Behavioral guidelines to reduce common LLM coding mistakes. Use when writing, reviewing, or refactoring code to avoid overcomplication, make surgical changes, surface assumptions, and define verifiable success criteria.
+license: MIT
 ---
 
-# karpathy-guidelines
+# Karpathy Guidelines
 
-구현이나 기존 코드 수정을 요청받으면, 먼저 생각한 뒤 요청한 줄만 고친다. 자잘한 오타나 한 곳의 명백한 수정에는 쓰지 않는다.
+Behavioral guidelines to reduce common LLM coding mistakes, derived from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls.
 
-実装や既存コードの修正を頼まれたら、先に考えてから頼まれた行だけ直す。小さな誤字や、一箇所の明らかな直しには使わない。
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
-## When
+## 1. Think Before Coding
 
-- 코드를 쓸 때. 기존 코드를 고칠 때. 리뷰나 리팩터에서 어디를 건드릴지 정할 때.
-- コードを書くとき。既存のコードを修正するとき。レビューやリファクタで、どこまで触るかを決めるとき。
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
 
-## Steps
+Before implementing:
+- State your assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them - don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
 
-1. 가정을 먼저 말한다. 해석이 여러 개면 둘 다 보여 주고, 불명확하면 그 이름을 말하고 멈춘다.
-   仮定を先に言う。解釈が複数あれば両方出し、不明ならその名前を言って止まる。
-2. 더 단순한 방법이 있으면 말한다. 요청하지 않은 기능, 한 번만 쓸 추상화, 요청하지 않은 설정은 넣지 않는다.
-   より単純な方法があればそれを言う。頼まれていない機能、一回しか使わない抽象化、頼まれていない設定は入れない。
-3. 성공 조건을 검증할 수 있는 형태로 바꾼다. 여러 단계면 각 단계의 확인 방법도 적는다.
-   成功条件を検証できる形にする。複数手順なら、各手順の確認方法も書く。
-4. 요청한 줄만 고친다. 옆의 주석, 서식, 깨지지 않은 코드는 건드리지 않는다. 이번 변경으로 안 쓰게 된 import나 함수만 지운다.
-   頼まれた行だけ直す。隣のコメント、整形、壊れていないコードは触らない。自分の変更で使われなくなった import や関数だけ消す。
-5. 성공 조건으로 확인한다. 조건이 "되게 해 달라"뿐이면, 확인할 수 있는 조건으로 고친 다음 진행한다.
-   成功条件で確認する。条件が「動くようにする」だけなら、確認できる条件に直してから進む。
+## 2. Simplicity First
 
-## Done when
+**Minimum code that solves the problem. Nothing speculative.**
 
-바꾼 줄이 요청으로 이어진다. 가정과 성공 조건이 남아 있다. 요청과 관계없는 차이가 없다.
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
 
-変えた行が依頼にたどれる。仮定と成功条件が残っている。依頼と無関係な差分がない。
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+
+## 3. Surgical Changes
+
+**Touch only what you must. Clean up only your own mess.**
+
+When editing existing code:
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it - don't delete it.
+
+When your changes create orphans:
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
+
+The test: Every changed line should trace directly to the user's request.
+
+## 4. Goal-Driven Execution
+
+**Define success criteria. Loop until verified.**
+
+Transform tasks into verifiable goals:
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+
+For multi-step tasks, state a brief plan:
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+```
+
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
